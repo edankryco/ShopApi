@@ -10,17 +10,17 @@ namespace SiteTask.Controllers;
 public class UserGetController : ControllerBase
 {
     string connect = "Server=localhost;port=57137;Database=Click;Uid=root;pwd=root;charset=utf8";
+
     [HttpGet("get_userBase")]
-    public async Task<IActionResult> GetUser()
+    public async Task<IActionResult> GetUser(string name)
     {
         var mysqlConnect = new MySqlConnection(connect);
-        mysqlConnect.Open();
+        await mysqlConnect.OpenAsync();
         var command = "SELECT name FROM Click";
         var mysqlCommand = new MySqlCommand(command, mysqlConnect);
         var mySlAdapter = new MySqlDataAdapter(mysqlCommand);
         DataSet dataSet = new DataSet();
         mySlAdapter.Fill(dataSet);
-        string name = "";
         foreach (DataRow dataRow in dataSet.Tables[0].Rows)
         {
             for (int i = 0; i < dataSet.Tables[0].Columns.Count; i++)
@@ -29,6 +29,7 @@ public class UserGetController : ControllerBase
             }
         }
 
+        await mysqlConnect.CloseAsync();
         var listUser = new List<User>
         {
             new User(name, "eledyall", "123", "123", 0)
@@ -37,30 +38,40 @@ public class UserGetController : ControllerBase
         {
             return NoContent();
         }
-        mysqlConnect.Close();
+
         return Ok(listUser);
     }
- 
-    [HttpGet("get_userBase{id}")]
+
+    [HttpGet("get_userBase/{id:int}")]
     public async Task<IActionResult> GetUserId(int id)
     {
-        List<string> listUser = new List<string>();
         var mysqlConnect = new MySqlConnection(connect);
-        mysqlConnect.Open();
-        var command = "SELECT * FROM Click WHERE id = @Id";
+        await mysqlConnect.OpenAsync();
+        var command = "SELECT name FROM Click WHERE id = @Id";
         var mysqlCommand = new MySqlCommand(command, mysqlConnect);
         mysqlCommand.Parameters.Add("@Id", MySqlDbType.Text).Value = id;
         var mySlAdapter = new MySqlDataAdapter(mysqlCommand);
         DataSet dataSet = new DataSet();
         mySlAdapter.Fill(dataSet);
+        var name = "";
         foreach (DataRow dataRow in dataSet.Tables[0].Rows)
         {
             for (int i = 0; i < dataSet.Tables[0].Columns.Count; i++)
             {
-                listUser.Add(dataRow[i].ToString());
+                name = dataRow[i].ToString();
             }
         }
-        mysqlConnect.Close();
+
+        await mysqlConnect.CloseAsync();
+        var listUser = new List<User>
+        {
+            new User(name, "eledyall", "123", "123", 0)
+        };
+        if (listUser == null)
+        {
+            return NoContent();
+        }
+
         return Ok(listUser);
     }
 }
