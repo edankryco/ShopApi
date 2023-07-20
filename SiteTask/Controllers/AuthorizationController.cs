@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Crypto.Prng;
 using SiteTask.Model;
 
 namespace SiteTask.Controllers;
@@ -7,10 +8,15 @@ namespace SiteTask.Controllers;
 [ApiController]
 public class AuthorizationController : ControllerBase
 {
-    [HttpGet("authorization")]
-    public async Task<IActionResult> UserAddDb(User user)
+    [HttpPost("authorization_Regist")]
+    public async Task<IActionResult> UserRegistration(User user)
     {
-        user.Name = "edgar"; 
+        return Ok();
+    }
+
+    [HttpPost()]
+    public async Task<IActionResult> UserLogin(User user)
+    {
         return Ok();
     }
 } 
