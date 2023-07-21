@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MySql.Data.MySqlClient;
 
 namespace SiteTask.Controllers;
 
@@ -20,9 +21,16 @@ public class RenameNameController : ControllerBase
     
     string connect = "Server=localhost;port=51363;Database=Click;Uid=root;pwd=root;charset=utf8";
 
-    [HttpPut("")]
-    public async Task<IActionResult> RenameUser()
+    [HttpPut("rename_Name/{id:int}")]
+    public async Task<IActionResult> RenameUser(int id, string name)
     {
+        var mySqlConnect = new MySqlConnection(connect);
+        await mySqlConnect.OpenAsync();
+        var command = "UPDATE Click SET name = @Name WHERE id = @Id";
+        var mySqlCommand = new MySqlCommand(command,mySqlConnect);
+        mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = name;
+        mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
+        mySqlCommand.ExecuteScalar();
         return Ok();
     }
 }

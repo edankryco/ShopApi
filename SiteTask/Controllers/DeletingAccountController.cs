@@ -29,6 +29,7 @@ public class DeletingAccountController : ControllerBase
         await mySqlConnect.OpenAsync();
         var mySqlCommand = new MySqlCommand(command, mySqlConnect);
         mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
+        mySqlCommand.ExecuteNonQuery();
         await mySqlConnect.CloseAsync();
         return Ok();
     }
