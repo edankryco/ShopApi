@@ -9,7 +9,19 @@ namespace SiteTask.Controllers;
 [ApiController]
 public class UserGetController : ControllerBase
 {
-    string connect = "Server=localhost;port=57137;Database=Click;Uid=root;pwd=root;charset=utf8";
+    private static readonly string[] Summaries = new[]
+    {
+        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    };
+
+    private readonly ILogger<UserGetController> _logger;
+
+    public UserGetController(ILogger<UserGetController> logger)
+    {
+        _logger = logger;
+    }
+    
+    string connect = "Server=localhost;port=51363;Database=Click;Uid=root;pwd=root;charset=utf8";
 
     [HttpGet("get_userBase")]
     public async Task<IActionResult> GetUser(string name)

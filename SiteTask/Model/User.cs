@@ -14,5 +14,6 @@ public class User
         Mail = mail;
         Pass = pass;
         Replace_Pass = replacePass;
+        Balans = balans;
     }
 }
