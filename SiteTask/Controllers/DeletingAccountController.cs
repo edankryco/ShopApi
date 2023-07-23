@@ -18,7 +18,7 @@ public class DeletingAccountController : ControllerBase
     {
         _logger = logger;
     }
-    
+
     string connect = "Server=localhost;port=51363;Database=Click;Uid=root;pwd=root;charset=utf8";
 
     [HttpDelete("deleted_User/{id:int}")]
@@ -29,7 +29,7 @@ public class DeletingAccountController : ControllerBase
         await mySqlConnect.OpenAsync();
         var mySqlCommand = new MySqlCommand(command, mySqlConnect);
         mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
-        mySqlCommand.ExecuteNonQuery();
+        await mySqlCommand.ExecuteNonQueryAsync();
         await mySqlConnect.CloseAsync();
         return Ok();
     }

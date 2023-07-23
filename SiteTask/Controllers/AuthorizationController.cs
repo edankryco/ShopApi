@@ -5,7 +5,7 @@ using SiteTask.Model;
 namespace SiteTask.Controllers;
 
 [Route("api/[controller]")]
-[ApiController]
+[ApiController] 
 public class AuthorizationController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
@@ -23,27 +23,30 @@ public class AuthorizationController : ControllerBase
     string connect = "Server=localhost;port=51363;Database=Click;Uid=root;pwd=root;charset=utf8";
 
     [HttpPost("authorization_Regist")]
-    public async Task<IActionResult> UserRegistration(string name, string mail, string pass, string replace_pass,int balans)
+    public async Task<IActionResult> UserRegistration(string name, string mail, string pass, string replace_pass,
+        int balans)
     {
         try
         {
-            var user = new User(name,mail,pass,replace_pass,balans);
+            var user = new User(name, mail, pass, replace_pass, balans);
             var mySqlConnect = new MySqlConnection(connect);
             await mySqlConnect.OpenAsync();
             Console.WriteLine("connect");
-            var command = "INSERT INTO Click(name,mail,pass,replace_pass, balans) VALUES (@Name, @Mail, @Pass, @Replace_Pass, @Balans)";
+            var command =
+                "INSERT INTO Click(name,mail,pass,replace_pass, balans) VALUES (@Name, @Mail, @Pass, @Replace_Pass, @Balans)";
             var sqlCommand = new MySqlCommand(command, mySqlConnect);
             sqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = user.Name;
             sqlCommand.Parameters.Add("@Mail", MySqlDbType.Text).Value = user.Mail;
             sqlCommand.Parameters.Add("@Pass", MySqlDbType.Text).Value = user.Pass;
-            sqlCommand.Parameters.Add("@Replace_Pass", MySqlDbType.Text).Value = user.Replace_Pass;
+            sqlCommand.Parameters.Add("@Replace_Pass", MySqlDbType.Text).Value = user.ReplacePass;
             sqlCommand.Parameters.Add("@Balans", MySqlDbType.Int64).Value = balans;
-            sqlCommand.ExecuteNonQuery();
+            await sqlCommand.ExecuteNonQueryAsync();
             await mySqlConnect.CloseAsync();
             if (user == null)
             {
                 return NoContent();
             }
+
             return Ok();
         }
         catch (Exception e)
@@ -64,12 +67,13 @@ public class AuthorizationController : ControllerBase
             var mySqlCommand = new MySqlCommand(command, mySqlConnect);
             mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = name;
             mySqlCommand.Parameters.Add("@Pass", MySqlDbType.Text).Value = pass;
-            var exist = mySqlCommand.ExecuteScalar();
+            var exist = await mySqlCommand.ExecuteScalarAsync();
             var convertBoolean = Convert.ToBoolean(exist);
             if (!convertBoolean)
             {
                 return NoContent();
             }
+
             await mySqlConnect.CloseAsync();
             return Ok();
         }
