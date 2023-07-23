@@ -27,8 +27,10 @@ public class DeletingAccountController : ControllerBase
         const string command = "DELETE FROM Click WHERE id = @Id";
         var mySqlConnect = new MySqlConnection(connect);
         await mySqlConnect.OpenAsync();
+        
         var mySqlCommand = new MySqlCommand(command, mySqlConnect);
         mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
+        
         await mySqlCommand.ExecuteNonQueryAsync();
         await mySqlConnect.CloseAsync();
         return Ok();

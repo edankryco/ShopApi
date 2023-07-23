@@ -26,10 +26,14 @@ public class RenameNameController : ControllerBase
     {
         var mySqlConnect = new MySqlConnection(connect);
         await mySqlConnect.OpenAsync();
+
         var command = "UPDATE Click SET name = @Name WHERE id = @Id";
         var mySqlCommand = new MySqlCommand(command, mySqlConnect);
         mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = name;
         mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
+
+        await mySqlCommand.ExecuteNonQueryAsync();
+        await mySqlConnect.CloseAsync();
         return Ok();
     }
 }

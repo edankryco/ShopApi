@@ -8,9 +8,9 @@ public class User
     public string Mail { get; set; }
     public string Pass { get; set; }
     public string ReplacePass { get; set; }
-    public int Balans { get; set; }
+    public object Balans { get; set; }
 
-    public User(string name, string mail, string pass,string replacePass, int balans)
+    public User(string name, string mail, string pass,string replacePass, object balans)
     {
         Name = name;
         Mail = mail;
