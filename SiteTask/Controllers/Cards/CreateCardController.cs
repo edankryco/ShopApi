@@ -16,12 +16,10 @@ public class CreateCardController : ControllerBase
         var mySqlConnect = new MySqlConnection(connect);
         const string command = "INSERT INTO CardDataShop(name,img,description) VALUES (@Name, @Img, @Description)";
         await mySqlConnect.OpenAsync();
-        
         var mySqlCommand = new MySqlCommand(command, mySqlConnect);
         mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = cards.Name;
         mySqlCommand.Parameters.Add("@Img", MySqlDbType.Text).Value = cards.Img;
         mySqlCommand.Parameters.Add("@Description", MySqlDbType.Text).Value = cards.Description;
-        
         await mySqlCommand.ExecuteScalarAsync();
         await mySqlConnect.CloseAsync();
         return Ok();

@@ -15,10 +15,8 @@ public class DeletedCardController : ControllerBase
         var mySqlConnect = new MySqlConnection(connect);
         var command = "DELETE FROM CardDataShop WHERE id = @Id";
         await mySqlConnect.OpenAsync();
-        
         var mySqlCommand = new MySqlCommand(command, mySqlConnect);
         mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = Id;
-        
         await mySqlCommand.ExecuteNonQueryAsync();
         await mySqlConnect.CloseAsync();
         return Ok();

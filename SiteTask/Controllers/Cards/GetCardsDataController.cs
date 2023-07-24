@@ -9,12 +9,12 @@ namespace SiteTask.Controllers.Cards;
 [ApiController]
 public class GetCardsDataController : ControllerBase
 {
-    private string connect = "Server=localhost;port=60341;Database=CardDataShop;Uid=root;pwd=root;charset=utf8";
+    private string Connect = "Server=localhost;port=60341;Database=CardDataShop;Uid=root;pwd=root;charset=utf8";
 
     [HttpGet("get_cards")]
     public async Task<IActionResult> CardsGet()
     {
-        var mySqlConnect = new MySqlConnection(connect);
+        var mySqlConnect = new MySqlConnection(Connect);
         const string commandName = "SELECT name FROM CardDataShop";
         const string commandImg = "SELECT img FROM CardDataShop";
         const string commandDescription = "SELECT description FROM CardDataShop";
@@ -55,7 +55,7 @@ public class GetCardsDataController : ControllerBase
     [HttpGet("get_cards{id:int}")]
     public async Task<IActionResult> CardsGetId(int id)
     {
-        var mySqlConnect = new MySqlConnection(connect);
+        var mySqlConnect = new MySqlConnection(Connect);
         const string commandName = "SELECT name FROM CardDataShop WHERE id = @Id ";
         const string commandImg = "SELECT img FROM CardDataShop WHERE id = @Id";
         const string commandDescription = "SELECT description FROM CardDataShop WHERE id = @Id";
