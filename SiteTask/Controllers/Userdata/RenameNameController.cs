@@ -24,6 +24,7 @@ public class RenameNameController : ControllerBase
     [HttpPut("rename_Name/{id:int}")]
     public async Task<IActionResult> RenameUser(int id, string name)
     {
+        
         var mySqlConnect = new MySqlConnection(connect);
         await mySqlConnect.OpenAsync();
         var command = "UPDATE Click SET name = @Name WHERE id = @Id";

@@ -10,7 +10,7 @@ public class CreateCardController : ControllerBase
     string connect = "Server=localhost;port=60341;Database=CardDataShop;Uid=root;pwd=root;charset=utf8";
     
     [HttpPost("create_card")]
-    public async Task<IActionResult> PostCardsDara(string name, string img, string description)
+    public async Task<IActionResult> PostCardsData(string name, string img, string description)
     {
         var cards = new Model.Cards(name, img, description);
         var mySqlConnect = new MySqlConnection(connect);

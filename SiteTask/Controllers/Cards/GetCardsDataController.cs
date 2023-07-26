@@ -18,36 +18,45 @@ public class GetCardsDataController : ControllerBase
         const string commandName = "SELECT name FROM CardDataShop";
         const string commandImg = "SELECT img FROM CardDataShop";
         const string commandDescription = "SELECT description FROM CardDataShop";
-        
+
         await mySqlConnect.OpenAsync();
-        
+
         var mySqlCommandName = new MySqlCommand(commandName, mySqlConnect);
         var mySqlCommandImg = new MySqlCommand(commandImg, mySqlConnect);
         var mySqlCommandDescription = new MySqlCommand(commandDescription, mySqlConnect);
         var mySqlAdapterName = new MySqlDataAdapter(mySqlCommandName);
         var mySqlAdapterImg = new MySqlDataAdapter(mySqlCommandImg);
         var mySqlAdapterDescription = new MySqlDataAdapter(mySqlCommandDescription);
-        
+
         var dataSetName = new DataSet();
         var dataSetImg = new DataSet();
         var dataSetDescription = new DataSet();
-        
+
         await mySqlAdapterName.FillAsync(dataSetName);
         await mySqlAdapterImg.FillAsync(dataSetImg);
         await mySqlAdapterDescription.FillAsync(dataSetDescription);
         var listCards = new List<Model.Cards>();
-
-        var name = "";
         foreach (DataRow dataRowName in dataSetName.Tables[0].Rows)
         {
             for (var i = 0; i < dataSetName.Tables[0].Columns.Count; i++)
             {
-                name = dataRowName[i].ToString();
+                foreach (DataRow dataRowImg in dataSetImg.Tables[0].Rows)
+                {
+                    for (var j = 0; j < dataSetImg.Tables[0].Columns.Count; j++)
+                    {
+                        foreach (DataRow dataRowDescription in dataSetDescription.Tables[0].Rows)
+                        {
+                            for (var g = 0; g < dataSetDescription.Tables[0].Columns.Count; g++)
+                            {
+                                var cards = new Model.Cards(dataRowName[i].ToString(), dataRowImg[j].ToString(),dataRowDescription[g].ToString());
+                                listCards.Add(cards);
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        var cards = new Model.Cards(name, "", "");
-        listCards.Add(cards);
         await mySqlConnect.CloseAsync();
         return Ok(listCards);
     }
@@ -59,9 +68,9 @@ public class GetCardsDataController : ControllerBase
         const string commandName = "SELECT name FROM CardDataShop WHERE id = @Id ";
         const string commandImg = "SELECT img FROM CardDataShop WHERE id = @Id";
         const string commandDescription = "SELECT description FROM CardDataShop WHERE id = @Id";
-        
+
         await mySqlConnect.OpenAsync();
-        
+
         var mySqlCommandName = new MySqlCommand(commandName, mySqlConnect);
         var mySqlCommandImg = new MySqlCommand(commandImg, mySqlConnect);
         var mySqlCommandDescription = new MySqlCommand(commandDescription, mySqlConnect);
@@ -69,13 +78,13 @@ public class GetCardsDataController : ControllerBase
         mySqlCommandImg.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
         mySqlCommandDescription.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
         var mySqlAdapterName = new MySqlDataAdapter(mySqlCommandName);
-        var mySqlAdapterImg = new MySqlDataAdapter(mySqlCommandName);
-        var mySqlAdapterDescription = new MySqlDataAdapter(mySqlCommandName);
-        
+        var mySqlAdapterImg = new MySqlDataAdapter(mySqlCommandImg);
+        var mySqlAdapterDescription = new MySqlDataAdapter(mySqlCommandDescription);
+
         var dataSetName = new DataSet();
         var dataSetImg = new DataSet();
         var dataSetDescription = new DataSet();
-        
+
         await mySqlAdapterName.FillAsync(dataSetName);
         await mySqlAdapterImg.FillAsync(dataSetImg);
         await mySqlAdapterDescription.FillAsync(dataSetDescription);
@@ -86,13 +95,13 @@ public class GetCardsDataController : ControllerBase
             {
                 foreach (DataRow dataRowImg in dataSetImg.Tables[0].Rows)
                 {
-                    for (var j = 0; i < dataSetName.Tables[0].Columns.Count; i++)
+                    for (var j = 0; j < dataSetImg.Tables[0].Columns.Count; j++)
                     {
                         foreach (DataRow dataRowDescription in dataSetDescription.Tables[0].Rows)
                         {
-                            for (var g = 0; i < dataSetName.Tables[0].Columns.Count; i++)
+                            for (var g = 0; g < dataSetDescription.Tables[0].Columns.Count; g++)
                             {
-                                var cards = new Model.Cards(dataRowName[i].ToString(), dataRowImg[i].ToString(), dataRowDescription[i].ToString());
+                                var cards = new Model.Cards(dataRowName[i].ToString(), dataRowImg[j].ToString(), dataRowDescription[g].ToString());
                                 listCards.Add(cards);
                             }
                         }
@@ -100,6 +109,7 @@ public class GetCardsDataController : ControllerBase
                 }
             }
         }
+
         await mySqlConnect.CloseAsync();
         return Ok(listCards);
     }

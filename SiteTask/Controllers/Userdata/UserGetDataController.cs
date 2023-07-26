@@ -23,7 +23,7 @@ public class UserGetController : ControllerBase
 
     string connect = "Server=localhost;port=60341;Database=Click;Uid=root;pwd=root;charset=utf8";
 
-    [HttpGet("get_userBase")]
+    [HttpGet("userBase")]
     public async Task<IActionResult> GetUser()
     {
         var mysqlConnect = new MySqlConnection(connect);
@@ -96,7 +96,7 @@ public class UserGetController : ControllerBase
         return Ok(listUser);
     }
 
-    [HttpGet("get_userBase/{id:int}")]
+    [HttpGet("userBase/{id:int}")]
     public async Task<IActionResult> GetUserId(int id)
     {
         var mysqlConnect = new MySqlConnection(connect);
