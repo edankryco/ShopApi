@@ -7,12 +7,21 @@ namespace SiteTask.Controllers.Cards;
 [ApiController]
 public class DeletedCardController : ControllerBase
 {
-    private string connect = "Server=localhost;port=60341;Database=CardDataShop;Uid=root;pwd=root;charset=utf8";
+    private ILogger<DeletedCardController> _logger;
+    private string _connect;
+
+    public DeletedCardController(IConfiguration configuration, ILogger<DeletedCardController> logger)
+    {
+        _logger = logger;
+        _connect = configuration.GetValue<string>("CConnectionStrings");
+        ;
+    }
+
 
     [HttpDelete("deleted_card")]
     public async Task<IActionResult> DeletedCardShop(string Id)
     {
-        var mySqlConnect = new MySqlConnection(connect);
+        var mySqlConnect = new MySqlConnection(_connect);
         var command = "DELETE FROM CardDataShop WHERE id = @Id";
         await mySqlConnect.OpenAsync();
         var mySqlCommand = new MySqlCommand(command, mySqlConnect);

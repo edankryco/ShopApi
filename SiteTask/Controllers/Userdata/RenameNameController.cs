@@ -7,25 +7,19 @@ namespace SiteTask.Controllers;
 [ApiController]
 public class RenameNameController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    private ILogger<RenameNameController> _logger;
+    private string _connect;
 
-    private readonly ILogger<RenameNameController> _logger;
-
-    public RenameNameController(ILogger<RenameNameController> logger)
+    public RenameNameController(ILogger<RenameNameController> logger, IConfiguration configuration)
     {
         _logger = logger;
+        _connect = configuration.GetValue<string>("ConnectionStrings");
     }
-
-    string connect = "Server=localhost;port=51363;Database=Click;Uid=root;pwd=root;charset=utf8";
 
     [HttpPut("rename_Name/{id:int}")]
     public async Task<IActionResult> RenameUser(int id, string name)
     {
-        
-        var mySqlConnect = new MySqlConnection(connect);
+        var mySqlConnect = new MySqlConnection(_connect);
         await mySqlConnect.OpenAsync();
         var command = "UPDATE Click SET name = @Name WHERE id = @Id";
         var mySqlCommand = new MySqlCommand(command, mySqlConnect);

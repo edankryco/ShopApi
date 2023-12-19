@@ -5,33 +5,30 @@ using SiteTask.Model;
 namespace SiteTask.Controllers;
 
 [Route("api/[controller]")]
-[ApiController] 
+[ApiController]
 public class AuthorizationController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    private ILogger<AuthorizationController> _logger;
+    private string _connect;
 
-    private readonly ILogger<AuthorizationController> _logger;
-
-    public AuthorizationController(ILogger<AuthorizationController> logger)
+    public AuthorizationController(IConfiguration configuration, ILogger<AuthorizationController> logger)
     {
+        _connect = configuration.GetValue<string>("ConnectionStrings");
         _logger = logger;
     }
 
-    string connect = "Server=localhost;port=60341;Database=Click;Uid=root;pwd=root;charset=utf8";
-
     [HttpPost("authorization_Regist")]
-    public async Task<IActionResult> UserRegistration(string name, string mail, string pass, string replace_pass, int balans)
+    public async Task<IActionResult> UserRegistration(string name, string mail, string pass, string replace_pass,
+        int balans)
     {
         try
         {
             var user = new User(name, mail, pass, replace_pass, balans);
-            var mySqlConnect = new MySqlConnection(connect);
+            var mySqlConnect = new MySqlConnection(_connect);
             await mySqlConnect.OpenAsync();
             Console.WriteLine("connect");
-            var command = "INSERT INTO Click(name,mail,pass,replace_pass, balans) VALUES (@Name, @Mail, @Pass, @Replace_Pass, @Balans)";
+            var command =
+                "INSERT INTO Click(name,mail,pass,replace_pass, balans) VALUES (@Name, @Mail, @Pass, @Replace_Pass, @Balans)";
             var sqlCommand = new MySqlCommand(command, mySqlConnect);
             sqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = user.Name;
             sqlCommand.Parameters.Add("@Mail", MySqlDbType.Text).Value = user.Mail;
@@ -44,6 +41,7 @@ public class AuthorizationController : ControllerBase
             {
                 return NoContent();
             }
+
             return Ok();
         }
         catch (Exception e)
@@ -59,7 +57,7 @@ public class AuthorizationController : ControllerBase
         try
         {
             const string command = "SELECT EXISTS(SELECT name, pass FROM Click WHERE name = @Name AND pass = @Pass)";
-            var mySqlConnect = new MySqlConnection(connect);
+            var mySqlConnect = new MySqlConnection(_connect);
             await mySqlConnect.OpenAsync();
             var mySqlCommand = new MySqlCommand(command, mySqlConnect);
             mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = name;
@@ -70,6 +68,7 @@ public class AuthorizationController : ControllerBase
             {
                 return NoContent();
             }
+
             await mySqlConnect.CloseAsync();
             return Ok();
         }
