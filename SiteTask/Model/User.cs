@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SiteTask.Model;
 
-public class User
+public class User : IComparable<User>
 {
     public string Name { get; set; }
     public string Mail { get; set; }
@@ -17,5 +17,15 @@ public class User
         Pass = pass;
         ReplacePass = replacePass;
         Balans = balans;
+    }
+
+    public int CompareTo(User? other)
+    {
+        if (other == null)
+        {
+            return 1;
+        }
+
+        return other.Name == Name ? 0 : 1;
     }
 }

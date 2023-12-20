@@ -4,8 +4,16 @@ using MySql.Data.MySqlClient;
 
 namespace SiteTask.Controllers.Cards;
 
+public interface IRenameCardsController
+{
+    public Task<IActionResult> RenameCardDescription(string renameDescription, int id);
+    public Task<IActionResult> RenameCardName(string renameName, int id);
+    public Task<IActionResult> RenameCardImg(string renameImg, int id);
+}
+
 [Route("/api[controller]")]
-public class RenameCardsController : ControllerBase
+[ApiController]
+public class RenameCardsController : ControllerBase, IRenameCardsController
 {
     private ILogger<RenameNameController> _logger;
     private readonly string _connect;
@@ -20,11 +28,13 @@ public class RenameCardsController : ControllerBase
     public async Task<IActionResult> RenameCardDescription(string renameDescription, int id)
     {
         var mySqlConnect = new MySqlConnection(_connect);
-        var command = "UPDATE CardDataShop SET description = @Description WHERE id = @Id";
+        const string command = "UPDATE CardDataShop SET description = @Description WHERE id = @Id";
+        
         await mySqlConnect.OpenAsync();
         var mySqlCommand = new MySqlCommand(command, mySqlConnect);
         mySqlCommand.Parameters.Add("@Description", MySqlDbType.Text).Value = renameDescription;
         mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
+        
         await mySqlCommand.ExecuteNonQueryAsync();
         await mySqlConnect.CloseAsync();
         return Ok();
@@ -34,7 +44,7 @@ public class RenameCardsController : ControllerBase
     public async Task<IActionResult> RenameCardName(string renameName, int id)
     {
         var mySqlConnect = new MySqlConnection(_connect);
-        var command = "UPDATE CardDataShop SET name = @Name WHERE id = @Id";
+        const string command = "UPDATE CardDataShop SET name = @Name WHERE id = @Id";
         await mySqlConnect.OpenAsync();
         var mySqlCommand = new MySqlCommand(command, mySqlConnect);
         mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = renameName;
@@ -48,7 +58,7 @@ public class RenameCardsController : ControllerBase
     public async Task<IActionResult> RenameCardImg(string renameImg, int id)
     {
         var mySqlConnect = new MySqlConnection(_connect);
-        var command = "UPDATE CardDataShop SET img = @Img WHERE id = @Id";
+        const string command = "UPDATE CardDataShop SET img = @Img WHERE id = @Id";
         await mySqlConnect.OpenAsync();
         var mySqlCommand = new MySqlCommand(command, mySqlConnect);
         mySqlCommand.Parameters.Add("@Img", MySqlDbType.Text).Value = renameImg;
