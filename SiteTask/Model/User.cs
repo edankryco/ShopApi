@@ -26,6 +26,11 @@ public class User : IComparable<User>
             return 1;
         }
 
-        return other.Name == Name ? 0 : 1;
+        if (other.Name == Name)
+        {
+            return string.Compare(Mail, other.Mail, StringComparison.Ordinal);
+        }
+
+        return string.Compare(Name, other.Name, StringComparison.Ordinal);
     }
 }
