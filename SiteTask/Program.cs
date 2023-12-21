@@ -1,3 +1,9 @@
+using SiteTask.CreateTable;
+
+var create = new CreateTable();
+
+create.StartSearch();
+
 var builder = WebApplication.CreateBuilder(args);
 
 

@@ -6,11 +6,11 @@ public class User : IComparable<User>
 {
     public string Name { get; set; }
     public string Mail { get; set; }
-    public string Pass { get; set; }
-    public string ReplacePass { get; set; }
+    public Password Pass { get; set; }
+    public Password ReplacePass { get; set; }
     public object Balans { get; set; }
 
-    public User(string name, string mail, string pass,string replacePass, object balans)
+    public User(string name, string mail, Password pass,Password replacePass, object balans)
     {
         Name = name;
         Mail = mail;

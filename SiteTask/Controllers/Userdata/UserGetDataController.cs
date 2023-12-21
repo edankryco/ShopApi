@@ -8,6 +8,7 @@ namespace SiteTask.Controllers;
 public interface IUserGetController
 {
     public Task<IActionResult> GetUserId(int id);
+    public Task<IActionResult> GetUsers();
 }
 
 [Route("api/[controller]")]
@@ -23,9 +24,21 @@ public class UserGetController : ControllerBase, IUserGetController
         _connect = configuration.GetValue<string>("ConnectionStrings");
     }
     
+    
+    
     [HttpGet("userBase/{id:int}")]
     public async Task<IActionResult> GetUserId(int id)
     {
+        const string command = "SELECT * FROM DataUser WHERE id = @ID";
+        
+        return Ok();
+    }
+
+    [HttpGet("userBase")]
+    public async Task<IActionResult> GetUsers()
+    {
+        const string command = "SELECT * FROM DataUser";
+        
         return Ok();
     }
 }
