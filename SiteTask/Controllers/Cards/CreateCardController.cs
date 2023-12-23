@@ -13,12 +13,12 @@ public interface ICreateCardController
 public class CreateCardController : ControllerBase, ICreateCardController
 {
     private ILogger<CreateCardController> _logger;
-    readonly string _connect = "Server=localhost;port=60341;Database=CardDataShop;Uid=root;pwd=root;charset=utf8";
+    readonly string _connect;
 
     public CreateCardController(IConfiguration configuration, ILogger<CreateCardController> logger)
     {
         _logger = logger;
-        _connect = configuration.GetValue<string>("ConnectionStrings");
+        _connect = configuration.GetConnectionString("DefaultConnection");
     }
 
     [HttpPost("create_card")]

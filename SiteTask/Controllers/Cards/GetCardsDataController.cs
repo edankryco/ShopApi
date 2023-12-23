@@ -21,7 +21,7 @@ public class GetCardsDataController : ControllerBase, IGetCardsDataController
     public GetCardsDataController(ILogger<GetCardsDataController> logger, IConfiguration configuration)
     {
         _logger = logger;
-        _connect = configuration.GetValue<string>("ConnectionStrings");
+        _connect = configuration.GetConnectionString("DefaultConnection");
     }
 
     [HttpGet("get_cards")]

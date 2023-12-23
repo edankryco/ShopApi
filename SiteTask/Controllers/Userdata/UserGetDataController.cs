@@ -21,7 +21,7 @@ public class UserGetController : ControllerBase, IUserGetController
     public UserGetController(ILogger<UserGetController> logger, IConfiguration configuration)
     {
         _logger = logger;
-        _connect = configuration.GetValue<string>("ConnectionStrings");
+        _connect = configuration.GetConnectionString("ConnectionStrings");
     }
     
     

@@ -18,8 +18,7 @@ public class DeletedCardController : ControllerBase, IDeletedCardController
     public DeletedCardController(IConfiguration configuration, ILogger<DeletedCardController> logger)
     {
         _logger = logger;
-        _connect = configuration.GetValue<string>("CConnectionStrings");
-        ;
+        _connect = configuration.GetConnectionString("DefaultConnection");
     }
 
 

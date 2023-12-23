@@ -21,7 +21,7 @@ public class RenameCardsController : ControllerBase, IRenameCardsController
     public RenameCardsController(ILogger<RenameNameController> logger, IConfiguration configuration)
     {
         _logger = logger;
-        _connect = configuration.GetValue<string>("ConnectionStrings");
+        _connect = configuration.GetConnectionString("DefaultConnection");
     }
 
     [HttpPut("renameCard_Description")]

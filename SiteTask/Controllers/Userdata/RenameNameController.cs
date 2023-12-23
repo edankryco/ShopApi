@@ -18,7 +18,7 @@ public class RenameNameController : ControllerBase, IRenameNameController
     public RenameNameController(ILogger<RenameNameController> logger, IConfiguration configuration)
     {
         _logger = logger;
-        _connect = configuration.GetValue<string>("ConnectionStrings");
+        _connect = configuration.GetConnectionString("ConnectionStrings");
     }
 
     [HttpPut("rename_Name/{id:int}")]
