@@ -1,6 +1,6 @@
 ﻿namespace SiteTask.Inteface;
 
-public interface Hash
+public interface IHash
 {
     public int HashPass();
 }

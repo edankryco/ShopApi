@@ -15,6 +15,8 @@ public interface IRenameCardsController
 [ApiController]
 public class RenameCardsController : ControllerBase, IRenameCardsController
 {
+    private MySqlCommand _mySqlCommand = new();
+    private MySqlConnection _mySqlConnect = new();
     private ILogger<RenameNameController> _logger;
     private readonly string _connect;
 
@@ -27,16 +29,16 @@ public class RenameCardsController : ControllerBase, IRenameCardsController
     [HttpPut("renameCard_Description")]
     public async Task<IActionResult> RenameCardDescription(string renameDescription, int id)
     {
-        var mySqlConnect = new MySqlConnection(_connect);
+        _mySqlConnect = new MySqlConnection(_connect);
         const string command = "UPDATE CardDataShop SET description = @Description WHERE id = @Id";
         
-        await mySqlConnect.OpenAsync();
-        var mySqlCommand = new MySqlCommand(command, mySqlConnect);
-        mySqlCommand.Parameters.Add("@Description", MySqlDbType.Text).Value = renameDescription;
-        mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
+        await _mySqlConnect.OpenAsync();
+        _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
+        _mySqlCommand.Parameters.Add("@Description", MySqlDbType.Text).Value = renameDescription;
+        _mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
         
-        await mySqlCommand.ExecuteNonQueryAsync();
-        await mySqlConnect.CloseAsync();
+        await _mySqlCommand.ExecuteNonQueryAsync();
+        await _mySqlConnect.CloseAsync();
         return Ok();
     }
     

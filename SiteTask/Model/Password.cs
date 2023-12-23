@@ -2,7 +2,7 @@
 
 namespace SiteTask.Model;
 
-public class Password : Hash
+public class Password : IHash
 {
     public Password(string pass)
     {

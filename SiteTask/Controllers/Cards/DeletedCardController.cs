@@ -12,6 +12,8 @@ public interface IDeletedCardController
 [ApiController]
 public class DeletedCardController : ControllerBase, IDeletedCardController
 {
+    private MySqlCommand _mySqlCommand = new();
+    private MySqlConnection _mySqlConnect = new();
     private ILogger<DeletedCardController> _logger;
     private string _connect;
 
@@ -25,15 +27,15 @@ public class DeletedCardController : ControllerBase, IDeletedCardController
     [HttpDelete("deleted_card")]
     public async Task<IActionResult> DeletedCardShop(string id)
     {
-        var mySqlConnect = new MySqlConnection(_connect);
+        _mySqlConnect = new MySqlConnection(_connect);
         const string command = "DELETE FROM CardDataShop WHERE id = @Id";
-        await mySqlConnect.OpenAsync();
-        var mySqlCommand = new MySqlCommand(command, mySqlConnect);
+        await _mySqlConnect.OpenAsync();
+        _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
         
-        mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
+        _mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
         
-        await mySqlCommand.ExecuteNonQueryAsync();
-        await mySqlConnect.CloseAsync();
+        await _mySqlCommand.ExecuteNonQueryAsync();
+        await _mySqlConnect.CloseAsync();
         return Ok();
     }
 }

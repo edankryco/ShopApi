@@ -15,6 +15,8 @@ public interface IUserGetController
 [ApiController]
 public class UserGetController : ControllerBase, IUserGetController
 {
+    private MySqlCommand _mySqlCommand = new();
+    private MySqlConnection _mySqlConnect = new();
     private ILogger<UserGetController> _logger;
     private string _connect;
 

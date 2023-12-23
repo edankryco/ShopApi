@@ -12,6 +12,8 @@ public interface ICreateCardController
 [ApiController]
 public class CreateCardController : ControllerBase, ICreateCardController
 {
+    private MySqlCommand _mySqlCommand = new();
+    private MySqlConnection _mySqlConnect = new();
     private ILogger<CreateCardController> _logger;
     readonly string _connect;
 
@@ -24,17 +26,17 @@ public class CreateCardController : ControllerBase, ICreateCardController
     [HttpPost("create_card")]
     public async Task<IActionResult> PostCardsData(Model.Cards cards)
     {
-        var mySqlConnect = new MySqlConnection(_connect);
+        _mySqlConnect = new MySqlConnection(_connect);
         const string command = "INSERT INTO CardDataShop(name,img,description) VALUES (@Name, @Img, @Description)";
-        await mySqlConnect.OpenAsync();
-        var mySqlCommand = new MySqlCommand(command, mySqlConnect);
+        await _mySqlConnect.OpenAsync();
+        _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
         
-        mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = cards.Name;
-        mySqlCommand.Parameters.Add("@Img", MySqlDbType.Text).Value = cards.Img;
-        mySqlCommand.Parameters.Add("@Description", MySqlDbType.Text).Value = cards.Description;
+        _mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = cards.Name;
+        _mySqlCommand.Parameters.Add("@Img", MySqlDbType.Text).Value = cards.Img;
+        _mySqlCommand.Parameters.Add("@Description", MySqlDbType.Text).Value = cards.Description;
 
-        await mySqlCommand.ExecuteScalarAsync();
-        await mySqlConnect.CloseAsync();
+        await _mySqlCommand.ExecuteScalarAsync();
+        await _mySqlConnect.CloseAsync();
 
         return Ok();
     }

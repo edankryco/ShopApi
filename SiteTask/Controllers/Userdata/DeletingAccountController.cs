@@ -12,6 +12,8 @@ public interface IDeletingAccountController
 [ApiController]
 public class DeletingAccountController : ControllerBase, IDeletingAccountController
 {
+    private MySqlCommand _mySqlCommand = new();
+    private MySqlConnection _mySqlConnect = new();
     private ILogger<DeletingAccountController> _logger;
     private string _connect;
 
@@ -26,15 +28,15 @@ public class DeletingAccountController : ControllerBase, IDeletingAccountControl
     public async Task<IActionResult> DeletedUserData(int id)
     {
         const string command = "DELETE FROM Click WHERE id = @Id";
-        var mySqlConnect = new MySqlConnection(_connect);
-        await mySqlConnect.OpenAsync();
-        
-        var mySqlCommand = new MySqlCommand(command, mySqlConnect);
-        mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
-        
-        await mySqlCommand.ExecuteNonQueryAsync();
-        await mySqlConnect.CloseAsync();
-        
+        _mySqlConnect = new MySqlConnection(_connect);
+        await _mySqlConnect.OpenAsync();
+
+        _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
+        _mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
+
+        await _mySqlCommand.ExecuteNonQueryAsync();
+        await _mySqlConnect.CloseAsync();
+
         return Ok();
     }
 }

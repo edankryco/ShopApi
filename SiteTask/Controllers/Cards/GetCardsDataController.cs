@@ -15,6 +15,8 @@ public interface IGetCardsDataController
 [ApiController]
 public class GetCardsDataController : ControllerBase, IGetCardsDataController
 {
+    private MySqlCommand _mySqlCommand = new();
+    private MySqlConnection _mySqlConnect = new();
     private ILogger<GetCardsDataController> _logger;
     private string _connect;
 

@@ -12,6 +12,8 @@ public interface IRenameNameController
 [ApiController]
 public class RenameNameController : ControllerBase, IRenameNameController
 {
+    private MySqlCommand _mySqlCommand = new();
+    private MySqlConnection _mySqlConnect = new();
     private ILogger<RenameNameController> _logger;
     private string _connect;
 
@@ -24,16 +26,16 @@ public class RenameNameController : ControllerBase, IRenameNameController
     [HttpPut("rename_Name/{id:int}")]
     public async Task<IActionResult> RenameUser(int id, string name)
     {
-        var mySqlConnect = new MySqlConnection(_connect);
+        _mySqlConnect = new MySqlConnection(_connect);
         
-        await mySqlConnect.OpenAsync();
+        await _mySqlConnect.OpenAsync();
         const string command = "UPDATE Click SET name = @Name WHERE id = @Id";
-        var mySqlCommand = new MySqlCommand(command, mySqlConnect);
-        mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = name;
-        mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
+        _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
+        _mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = name;
+        _mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
         
-        await mySqlCommand.ExecuteNonQueryAsync();
-        await mySqlConnect.CloseAsync();
+        await _mySqlCommand.ExecuteNonQueryAsync();
+        await _mySqlConnect.CloseAsync();
         
         return Ok();
     }
