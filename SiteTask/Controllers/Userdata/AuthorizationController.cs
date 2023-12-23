@@ -16,11 +16,21 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
 {
     private ILogger<AuthorizationController> _logger;
     private string _connect;
+    
+    private MySqlConnection mySqlConnection = new();
+    private MySqlCommand mySqlCommand = new();
+    private const string connect = "Server=mysql.students.it-college.ru;Database=i22s0909;Uid=i22s0909;pwd=5x9PVV83;charset=utf8";
 
     public AuthorizationController(IConfiguration configuration, ILogger<AuthorizationController> logger)
     {
         _connect = configuration.GetConnectionString("DefaultConnection");
         _logger = logger;
+    }
+
+    public async Task IfTableNo()
+    {
+        var create = new CreateTable.CreateTable(mySqlCommand, mySqlConnection, connect);
+        create.StartSearch();
     }
 
     [HttpPost("authorization_Regist")]

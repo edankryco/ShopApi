@@ -1,13 +1,3 @@
-using MySql.Data.MySqlClient;
-using SiteTask.CreateTable;
-
-var mySqlConnection = new MySqlConnection();
-var mySqlCommand = new MySqlCommand();
-var connect = "Server=192.168.137.62;Database=DataUser;Uid=root;pwd=root;charset=utf8";
-
-CreateTableConfig();
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -30,10 +20,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-return;
-
-void CreateTableConfig()
-{
-    var create = new CreateTable(mySqlCommand, mySqlConnection, connect);
-    create.StartSearch();
-}

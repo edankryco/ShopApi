@@ -24,12 +24,13 @@ public class CreateTable
 
     private void PurchaseHistoryTable()
     {
-        const string command = "CREATE TABLE History(" +
+        const string command = "CREATE TABLE IF NOT EXISTS History(" +
                                "id INT AUTO_INCREMENT PRIMARY KEY NOT NULL," +
                                "iduser INT, " +
                                "buy INT, " +
                                "cardsname VARCHAR(255) " +
-                               "FOREIGN KEY iduser Users(name), FOREIGN KEY buy Cards(id))";
+                               "FOREIGN KEY iduser Users(name), " +
+                               "FOREIGN KEY buy Cards(id))";
         
         _mySqlConnection = new MySqlConnection(_conenct);
         _mySqlConnection.Open();
@@ -40,7 +41,7 @@ public class CreateTable
 
     private void CreateTableUsers()
     {
-        const string command = "CREATE TABLE Users(" +
+        const string command = "CREATE TABLE IF NOT EXISTS Users(" +
                                "id INT AUTO_INCREMENT PRIMARY KEY NOT NULL," +
                                "name VARCHAR(255)," +
                                "age INT(3), " +
@@ -57,7 +58,7 @@ public class CreateTable
 
     private void CreateTableCards()
     {
-        const string command = "CREATE TABLE Cards(" +
+        const string command = "CREATE TABLE IF NOT EXISTS Cards(" +
                                "id INT AUTO_INCREMENT PRIMARY KEY NOT NULL," +
                                " namecards VARCHAR(255), " +
                                "img BIT, " +
