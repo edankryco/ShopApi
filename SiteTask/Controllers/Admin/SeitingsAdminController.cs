@@ -2,9 +2,16 @@
 
 namespace SiteTask.Controllers.Admin;
 
+public interface ISeitingsAdminController
+{
+    public Task<IActionResult> CreateAdmin();
+    public Task<IActionResult> DeletedAdmin();
+    public Task<IActionResult> UpRang();
+}
+
 [Route("/api/[controller]")]
 [ApiController]
-public class SeitingsAdminController : ControllerBase
+public class SeitingsAdminController : ControllerBase, ISeitingsAdminController
 {
     private ILogger<SeitingsAdminController> _logger;
     private IConfiguration _configuration;
@@ -15,6 +22,7 @@ public class SeitingsAdminController : ControllerBase
         _logger = logger;
     }
 
+    [HttpPost("createadmin")]
     public async Task<IActionResult> CreateAdmin()
     {
         const string command = "";
@@ -23,11 +31,13 @@ public class SeitingsAdminController : ControllerBase
         return Ok();
     }
 
+    [HttpPost("deletedadmin")]
     public async Task<IActionResult> DeletedAdmin()
     {
         return Ok();
     }
 
+    [HttpPost("uprang")]
     public async Task<IActionResult> UpRang()
     {
         return Ok();

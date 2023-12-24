@@ -19,18 +19,18 @@ public class CreateTable
     {
         await CreateTableUsers();
         await CreateTableCards();
-        await PurchaseHistoryTable();
         await AdminTable();
+        await PurchaseHistoryTable();
     }
 
     private async Task AdminTable()
     {
         const string command = "CREATE TABLE IF NOT EXISTS Admin(" +
-                               "id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, " +
+                               "id INT PRIMARY KEY AUTO_INCREMENT NOT NULL, " +
                                "Name VARCHAR(255), " +
-                               "idadmin VARCHAR(255), " +
+                               "idadmin INT, " +
                                "rang INT," +
-                               "FOREIGN KEY idadmin Users(id))";
+                               "FOREIGN KEY (idadmin) REFERENCES Users (id))";
         
         _mySqlConnection = new MySqlConnection(_conenct);
         await _mySqlConnection.OpenAsync();
@@ -42,12 +42,12 @@ public class CreateTable
     private async Task PurchaseHistoryTable()
     {
         const string command = "CREATE TABLE IF NOT EXISTS History(" +
-                               "id INT AUTO_INCREMENT PRIMARY KEY NOT NULL," +
+                               "id INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
                                "iduser INT, " +
                                "buy INT, " +
-                               "cardsname VARCHAR(255) " +
-                               "FOREIGN KEY iduser Users(name), " +
-                               "FOREIGN KEY buy Cards(id))";
+                               "cardsname VARCHAR(255), " +
+                               "FOREIGN KEY (iduser) REFERENCES Users(id), " +
+                               "FOREIGN KEY (buy) REFERENCES Cards(id))";
 
         _mySqlConnection = new MySqlConnection(_conenct);
         await _mySqlConnection.OpenAsync();
@@ -59,11 +59,12 @@ public class CreateTable
     private async Task CreateTableUsers()
     {
         const string command = "CREATE TABLE IF NOT EXISTS Users(" +
-                               "id INT AUTO_INCREMENT PRIMARY KEY NOT NULL," +
+                               "id INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
                                "name VARCHAR(255)," +
-                               "age INT(3), " +
-                               "password INT,  " +
-                               "email VARCHAR(255), " +
+                               "age INT(3)," +
+                               "email VARCHAR(255)," +
+                               "password INT, " +
+                               "repassword INT," +
                                "balanc INT)";
 
         _mySqlConnection = new MySqlConnection(_conenct);
@@ -76,8 +77,8 @@ public class CreateTable
     private async Task CreateTableCards()
     {
         const string command = "CREATE TABLE IF NOT EXISTS Cards(" +
-                               "id INT AUTO_INCREMENT PRIMARY KEY NOT NULL," +
-                               " namecards VARCHAR(255), " +
+                               "id INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
+                               "namecards VARCHAR(255), " +
                                "img BIT, " +
                                "nameuser VARCHAR(255))";
 

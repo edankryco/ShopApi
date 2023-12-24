@@ -26,7 +26,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         _logger = logger;
     }
 
-    [HttpPost]
+    [HttpPost("iftableno")]
     public async Task IfTableNo()
     {
         var create = new CreateTable.CreateTable(_mySqlCommand, _mySqlConnection, _connect);
@@ -42,17 +42,18 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         await mySqlConnect.OpenAsync();
 
         const string command = "INSERT INTO Click" +
-                               "(name,mail,pass,replace_pass, balans)" +
-                               " VALUES (@Name, @Mail, @Pass, @Replace_Pass, @Balans)";
+                               "(name, age, mail,pass,replace_pass, balanc)" +
+                               " VALUES (@Name, @Age, @Mail, @Pass, @Replace_Pass, @Balanc)";
 
 
         _mySqlCommand = new MySqlCommand(command, mySqlConnect);
 
         _mySqlCommand.Parameters.Add("@Name", MySqlDbType.VarChar).Value = user.Name;
+        _mySqlCommand.Parameters.Add("@Age", MySqlDbType.Int32).Value = user.Age;
         _mySqlCommand.Parameters.Add("@Mail", MySqlDbType.VarChar).Value = user.Mail;
-        _mySqlCommand.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = user.Pass.HashPass();
-        _mySqlCommand.Parameters.Add("@Replace_Pass", MySqlDbType.VarChar).Value = user.ReplacePass.HashPass();
-        _mySqlCommand.Parameters.Add("@Balans", MySqlDbType.Int64).Value = user.Balans;
+        _mySqlCommand.Parameters.Add("@Pass", MySqlDbType.Int32).Value = user.Pass.HashPass();
+        _mySqlCommand.Parameters.Add("@Replace_Pass", MySqlDbType.Int32).Value = user.ReplacePass.HashPass();
+        _mySqlCommand.Parameters.Add("@Balanc", MySqlDbType.Int32).Value = user.Balans;
 
         await _mySqlCommand.ExecuteNonQueryAsync();
         await mySqlConnect.CloseAsync();
