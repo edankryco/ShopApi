@@ -4,22 +4,24 @@ namespace SiteTask.Model;
 
 public class User : IComparable<User>
 {
+    public User(string name, int age, string mail, Password pass, Password replacePass, int balanc)
+    {
+        Name = name;
+        Age = age;
+        Mail = mail;
+        Pass = pass;
+        ReplacePass = replacePass;
+        Balanc = balanc;
+    }
+
     public string Name { get; set; }
     public int Age { get; set; }
     public string Mail { get; set; }
     public Password Pass { get; set; }
     public Password ReplacePass { get; set; }
-    public object Balans { get; set; }
+    public int Balanc { get; set; }
 
-    public User(string name, string mail, Password pass,Password replacePass, object balans, int age)
-    {
-        Name = name;
-        Mail = mail;
-        Pass = pass;
-        ReplacePass = replacePass;
-        Balans = balans;
-        Age = age;
-    }
+    
 
     public int CompareTo(User? other)
     {
