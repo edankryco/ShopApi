@@ -20,6 +20,23 @@ public class CreateTable
         await CreateTableUsers();
         await CreateTableCards();
         await PurchaseHistoryTable();
+        await AdminTable();
+    }
+
+    private async Task AdminTable()
+    {
+        const string command = "CREATE TABLE IF NOT EXISTS Admin(" +
+                               "id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, " +
+                               "Name VARCHAR(255), " +
+                               "idadmin VARCHAR(255), " +
+                               "rang INT," +
+                               "FOREIGN KEY idadmin Users(id))";
+        
+        _mySqlConnection = new MySqlConnection(_conenct);
+        await _mySqlConnection.OpenAsync();
+        _mySqlCommand = new MySqlCommand(command, _mySqlConnection);
+        await _mySqlCommand.ExecuteNonQueryAsync();
+        await _mySqlConnection.CloseAsync();
     }
 
     private async Task PurchaseHistoryTable()

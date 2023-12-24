@@ -21,7 +21,7 @@ public class DeletingAccountController : ControllerBase, IDeletingAccountControl
         IConfiguration configuration)
     {
         _logger = logger;
-        _connect = configuration.GetConnectionString("ConnectionStrings");
+        _connect = configuration.GetConnectionString("DefaultConnection");
     }
 
     [HttpDelete("deleted_User/{id:int}")]

@@ -23,7 +23,7 @@ public class UserGetController : ControllerBase, IUserGetController
     public UserGetController(ILogger<UserGetController> logger, IConfiguration configuration)
     {
         _logger = logger;
-        _connect = configuration.GetConnectionString("ConnectionStrings");
+        _connect = configuration.GetConnectionString("DefaultConnection");
     }
     
     

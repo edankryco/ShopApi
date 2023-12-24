@@ -26,6 +26,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         _logger = logger;
     }
 
+    [HttpPost]
     public async Task IfTableNo()
     {
         var create = new CreateTable.CreateTable(_mySqlCommand, _mySqlConnection, _connect);
@@ -35,6 +36,8 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
     [HttpPost("authorization_Regist")]
     public async Task<IActionResult> UserRegistration(User user)
     {
+        await IfTableNo();
+        
         var mySqlConnect = new MySqlConnection(_connect);
         await mySqlConnect.OpenAsync();
 
