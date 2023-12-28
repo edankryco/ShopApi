@@ -15,8 +15,8 @@ public interface IRenameCardsController
 [ApiController]
 public class RenameCardsController : ControllerBase, IRenameCardsController
 {
-    private MySqlCommand _mySqlCommand = new();
-    private MySqlConnection _mySqlConnect = new();
+    private MySqlCommand _mySqlCommand;
+    private MySqlConnection _mySqlConnect;
     private ILogger<RenameNameController> _logger;
     private readonly string _connect;
 

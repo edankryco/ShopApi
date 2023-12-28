@@ -12,8 +12,8 @@ public interface IDeletingAccountController
 [ApiController]
 public class DeletingAccountController : ControllerBase, IDeletingAccountController
 {
-    private MySqlCommand _mySqlCommand = new();
-    private MySqlConnection _mySqlConnect = new();
+    private MySqlCommand _mySqlCommand;
+    private MySqlConnection _mySqlConnect;
     private ILogger<DeletingAccountController> _logger;
     private string _connect;
 

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using SiteTask.Create;
 using SiteTask.Model;
 
 namespace SiteTask.Controllers;
@@ -17,8 +18,8 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
     private ILogger<AuthorizationController> _logger;
     private string _connect;
 
-    private readonly MySqlConnection _mySqlConnection = new();
-    private MySqlCommand _mySqlCommand = new();
+    private readonly MySqlConnection _mySqlConnection;
+    private MySqlCommand _mySqlCommand;
 
     public AuthorizationController(IConfiguration configuration, ILogger<AuthorizationController> logger)
     {
@@ -29,7 +30,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
     [HttpPost("iftableno")]
     public async Task IfTableNo()
     {
-        var create = new CreateTable.CreateTable(_mySqlCommand, _mySqlConnection, _connect);
+        var create = new CreateTable(_connect);
         await create.StartSearch();
     }
 
@@ -43,8 +44,8 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
 
         const string command = "INSERT INTO Users" +
                                "(name, age, email,password,repassword, balanc)" +
-                               " VALUES " +
-                               "(@Name, @Age, @Mail, " +
+                               " VALUES(" +
+                               "@Name, @Age, @Mail, " +
                                "@Pass, @Replace_Pass, @Balanc)";
 
 

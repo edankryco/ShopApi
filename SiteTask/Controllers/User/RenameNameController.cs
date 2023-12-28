@@ -12,8 +12,8 @@ public interface IRenameNameController
 [ApiController]
 public class RenameNameController : ControllerBase, IRenameNameController
 {
-    private MySqlCommand _mySqlCommand = new();
-    private MySqlConnection _mySqlConnect = new();
+    private MySqlCommand _mySqlCommand;
+    private MySqlConnection _mySqlConnect;
     private ILogger<RenameNameController> _logger;
     private string _connect;
 

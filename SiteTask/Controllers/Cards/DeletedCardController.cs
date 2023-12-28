@@ -12,8 +12,8 @@ public interface IDeletedCardController
 [ApiController]
 public class DeletedCardController : ControllerBase, IDeletedCardController
 {
-    private MySqlCommand _mySqlCommand = new();
-    private MySqlConnection _mySqlConnect = new();
+    private MySqlCommand _mySqlCommand;
+    private MySqlConnection _mySqlConnect;
     private ILogger<DeletedCardController> _logger;
     private string _connect;
 

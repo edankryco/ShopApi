@@ -12,8 +12,8 @@ public interface ICreateCardController
 [ApiController]
 public class CreateCardController : ControllerBase, ICreateCardController
 {
-    private MySqlCommand _mySqlCommand = new();
-    private MySqlConnection _mySqlConnect = new();
+    private MySqlCommand _mySqlCommand;
+    private MySqlConnection _mySqlConnect;
     private ILogger<CreateCardController> _logger;
     readonly string _connect;
 

@@ -55,3 +55,6 @@ C:\Users\edgar\Desktop\ShopApi\SiteTask\obj\Debug\net7.0\refint\SiteTask.dll
 C:\Users\edgar\Desktop\ShopApi\SiteTask\obj\Debug\net7.0\SiteTask.pdb
 C:\Users\edgar\Desktop\ShopApi\SiteTask\obj\Debug\net7.0\SiteTask.genruntimeconfig.cache
 C:\Users\edgar\Desktop\ShopApi\SiteTask\obj\Debug\net7.0\ref\SiteTask.dll
+C:\Users\edgar\Desktop\ShopApi\SiteTask\bin\Debug\net7.0\Isopoh.Cryptography.Argon2.dll
+C:\Users\edgar\Desktop\ShopApi\SiteTask\bin\Debug\net7.0\Isopoh.Cryptography.Blake2b.dll
+C:\Users\edgar\Desktop\ShopApi\SiteTask\bin\Debug\net7.0\Isopoh.Cryptography.SecureArray.dll

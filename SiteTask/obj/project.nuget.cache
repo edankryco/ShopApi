@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "onzgeeywfz1ASr4+/P/X49L+jAlx3iU9G2iVOZ/2sRbRWmtIIEc3b5Sj7DVHHT+8/Rx4p6Fs4cYhj34MSKqeww==",
+  "dgSpecHash": "6dZ3PxyeGvQh4cQ13qLmyCBJjuHclGHfDudgHCeBdj+uM3GBrgcjUksNVMuvHpzY6Zs6Y0qn9Zz3sdz9xKYCVg==",
   "success": true,
   "projectFilePath": "C:\\Users\\edgar\\Desktop\\ShopApi\\SiteTask\\SiteTask.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\edgar\\.nuget\\packages\\google.protobuf\\3.21.9\\google.protobuf.3.21.9.nupkg.sha512",
+    "C:\\Users\\edgar\\.nuget\\packages\\isopoh.cryptography.argon2\\2.0.0\\isopoh.cryptography.argon2.2.0.0.nupkg.sha512",
+    "C:\\Users\\edgar\\.nuget\\packages\\isopoh.cryptography.blake2b\\2.0.0\\isopoh.cryptography.blake2b.2.0.0.nupkg.sha512",
+    "C:\\Users\\edgar\\.nuget\\packages\\isopoh.cryptography.securearray\\2.0.0\\isopoh.cryptography.securearray.2.0.0.nupkg.sha512",
     "C:\\Users\\edgar\\.nuget\\packages\\k4os.compression.lz4\\1.3.5\\k4os.compression.lz4.1.3.5.nupkg.sha512",
     "C:\\Users\\edgar\\.nuget\\packages\\k4os.compression.lz4.streams\\1.3.5\\k4os.compression.lz4.streams.1.3.5.nupkg.sha512",
     "C:\\Users\\edgar\\.nuget\\packages\\k4os.hash.xxhash\\1.0.8\\k4os.hash.xxhash.1.0.8.nupkg.sha512",
