@@ -84,9 +84,9 @@ public class UserGetController : ControllerBase, IUserGetController
                 var email = dbDataReader.GetValue(4);
                 var password = dbDataReader.GetValue(5);
                 var repeatPassword = dbDataReader.GetValue(6);
-                var balanc = dbDataReader.GetValue(7);
+                var balans = dbDataReader.GetValue(7);
                 
-                var userGet = new UserGet(login, name, age, email, password, repeatPassword, balanc);
+                var userGet = new UserGet(login, name, age, email, password, repeatPassword, balans);
                 _heap.Put(userGet);
             }
 
