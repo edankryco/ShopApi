@@ -2,27 +2,21 @@
 
 public interface IHeap<T> where T : IComparable<T>
 {
-    public int Size { get; set; }
     public void Put(T item);
-    public T? GetMax(T item);
+    public T? GetMax();
 }
 
 public class Heap<T> : IHeap<T> where T : IComparable<T>
 {
-    private List<T> _heap;
+    private List<T> _heap = new();
 
-    public Heap(List<T> heap)
-    {
-        _heap = heap;
-    }
-
-    public int Size { get; set; }
+    public int Count => _heap.Count;
 
     public void Put(T item)
     {
        _heap.Add(item);
 
-       var i = Size - 1;
+       var i = Count - 1;
        var parentIndex = GetParentIndex(i);
 
        while (i > 0 && _heap[parentIndex].CompareTo(_heap[i]) < 0)
@@ -33,14 +27,14 @@ public class Heap<T> : IHeap<T> where T : IComparable<T>
        }
     }
 
-    public T? GetMax(T item)
+    public T? GetMax()
     {
-        if (Size <= 0) return default;
+        if (Count <= 0) return default;
         var result = _heap[0];
-        _heap[0] = _heap[Size - 1];
-        _heap.RemoveAt(Size - 1);
+        _heap[0] = _heap[Count - 1];
+        _heap.RemoveAt(Count - 1);
         Sort(0);
-
+        
         return result;
     }
     
@@ -50,14 +44,14 @@ public class Heap<T> : IHeap<T> where T : IComparable<T>
         int leftIndex;
         int rightIndex;
 
-        while (curenteIndex < Size)
+        while (curenteIndex < Count)
         {
             leftIndex = 2 * curenteIndex + 1;
             rightIndex = 2 * curenteIndex + 2;
 
-            if (leftIndex < Size && _heap[leftIndex].CompareTo(_heap[maxIndex]) > 0)
+            if (leftIndex < Count && _heap[leftIndex].CompareTo(_heap[maxIndex]) > 0)
                 maxIndex = leftIndex;
-            if (rightIndex < Size && _heap[rightIndex].CompareTo(_heap[maxIndex]) > 0)
+            if (rightIndex < Count && _heap[rightIndex].CompareTo(_heap[maxIndex]) > 0)
                 maxIndex = rightIndex;
             if (maxIndex == curenteIndex)
                 break;

@@ -36,6 +36,6 @@ public class DeletedCardController : ControllerBase, IDeletedCardController
         
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
-        return Ok();
+        return NoContent();
     }
 }

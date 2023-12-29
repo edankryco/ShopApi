@@ -38,6 +38,6 @@ public class CreateCardController : ControllerBase, ICreateCardController
         await _mySqlCommand.ExecuteScalarAsync();
         await _mySqlConnect.CloseAsync();
 
-        return Ok();
+        return NoContent();
     }
 }

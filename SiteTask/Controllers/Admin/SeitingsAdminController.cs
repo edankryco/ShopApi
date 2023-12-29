@@ -40,7 +40,7 @@ public class SeitingsAdminController : ControllerBase, ISeitingsAdminController
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
 
-        return Ok();
+        return NoContent();
     }
 
     [HttpPost("deletedadmin")]
@@ -55,7 +55,7 @@ public class SeitingsAdminController : ControllerBase, ISeitingsAdminController
         _mySqlCommand.Parameters.Add("@ID", MySqlDbType.Int64).Value = id;
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
-        return Ok();
+        return NoContent();
     }
 
     [HttpPut("uprang")]
@@ -71,6 +71,6 @@ public class SeitingsAdminController : ControllerBase, ISeitingsAdminController
         _mySqlCommand.Parameters.Add("@ID", MySqlDbType.Int64).Value = id;
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
-        return Ok();
+        return NoContent();
     }
 }

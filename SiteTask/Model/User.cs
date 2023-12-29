@@ -4,7 +4,7 @@ namespace SiteTask.Model;
 
 public class User : IComparable<User>
 {
-    public User(string name, string login, int age, string mail, Password pass, Password replacePass, int balanc)
+    public User(string login,string name, int age, string mail, Password pass, Password replacePass, int balanc)
     {
         Name = name;
         Login = login;
@@ -15,8 +15,8 @@ public class User : IComparable<User>
         Balanc = balanc;
     }
 
-    public string Name { get; set; }
     public string Login { get; set; }
+    public string Name { get; set; }
     public int Age { get; set; }
     public string Mail { get; set; }
     public Password Pass { get; set; }

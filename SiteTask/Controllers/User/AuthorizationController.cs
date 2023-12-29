@@ -43,14 +43,15 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         await mySqlConnect.OpenAsync();
 
         const string command = "INSERT INTO Users" +
-                               "(name, age, email,password,repassword, balanc)" +
+                               "(login, name, age, email,password,repassword, balanc)" +
                                " VALUES(" +
-                               "@Name, @Age, @Mail, " +
+                               "@Login, @Name, @Age, @Mail, " +
                                "@Pass, @Replace_Pass, @Balanc)";
 
 
         _mySqlCommand = new MySqlCommand(command, mySqlConnect);
 
+        _mySqlCommand.Parameters.Add("@Login", MySqlDbType.VarChar).Value = user.Login;
         _mySqlCommand.Parameters.Add("@Name", MySqlDbType.VarChar).Value = user.Name;
         _mySqlCommand.Parameters.Add("@Age", MySqlDbType.Int64).Value = user.Age;
         _mySqlCommand.Parameters.Add("@Mail", MySqlDbType.VarChar).Value = user.Mail;
@@ -61,7 +62,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         await _mySqlCommand.ExecuteNonQueryAsync();
         await mySqlConnect.CloseAsync();
 
-        return Ok();
+        return NoContent();
     }
 
     [HttpPost("authorization_Login")]
@@ -69,7 +70,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
     {
         const string command = "SELECT EXISTS" +
                                "(SELECT name, pass FROM " +
-                               "Click WHERE name = @Name " +
+                               "Users WHERE name = @Name " +
                                "AND pass = @Pass)";
 
         var mySqlConnect = new MySqlConnection(_connect);
@@ -88,6 +89,6 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         }
 
         await mySqlConnect.CloseAsync();
-        return Ok();
+        return NoContent();
     }
 }

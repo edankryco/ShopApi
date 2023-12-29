@@ -10,14 +10,14 @@ public interface IRenameNameController
 
 [Route("api/[controller]")]
 [ApiController]
-public class RenameNameController : ControllerBase, IRenameNameController
+public class RenameUserController : ControllerBase, IRenameNameController
 {
     private MySqlCommand _mySqlCommand;
     private MySqlConnection _mySqlConnect;
-    private ILogger<RenameNameController> _logger;
+    private ILogger<RenameUserController> _logger;
     private string _connect;
 
-    public RenameNameController(ILogger<RenameNameController> logger, IConfiguration configuration)
+    public RenameUserController(ILogger<RenameUserController> logger, IConfiguration configuration)
     {
         _logger = logger;
         _connect = configuration.GetConnectionString("DefaultConnection");
@@ -37,6 +37,6 @@ public class RenameNameController : ControllerBase, IRenameNameController
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
         
-        return Ok();
+        return NoContent();
     }
 }

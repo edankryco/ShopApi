@@ -17,10 +17,10 @@ public class RenameCardsController : ControllerBase, IRenameCardsController
 {
     private MySqlCommand _mySqlCommand;
     private MySqlConnection _mySqlConnect;
-    private ILogger<RenameNameController> _logger;
+    private ILogger<RenameUserController> _logger;
     private readonly string _connect;
 
-    public RenameCardsController(ILogger<RenameNameController> logger, IConfiguration configuration)
+    public RenameCardsController(ILogger<RenameUserController> logger, IConfiguration configuration)
     {
         _logger = logger;
         _connect = configuration.GetConnectionString("DefaultConnection");
@@ -39,7 +39,7 @@ public class RenameCardsController : ControllerBase, IRenameCardsController
         
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
-        return Ok();
+        return NoContent();
     }
     
     [HttpPut("renameCard_Name")]
@@ -53,7 +53,7 @@ public class RenameCardsController : ControllerBase, IRenameCardsController
         mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
         await mySqlCommand.ExecuteNonQueryAsync();
         await mySqlConnect.CloseAsync();
-        return Ok();
+        return NoContent();
     }
     
     [HttpPut("renameCard_Img")]
@@ -67,6 +67,6 @@ public class RenameCardsController : ControllerBase, IRenameCardsController
         mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
         await mySqlCommand.ExecuteNonQueryAsync();
         await mySqlConnect.CloseAsync();
-        return Ok();
+        return NoContent();
     }
 }

@@ -37,6 +37,6 @@ public class DeletingAccountController : ControllerBase, IDeletingAccountControl
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
 
-        return Ok();
+        return NoContent();
     }
 }
