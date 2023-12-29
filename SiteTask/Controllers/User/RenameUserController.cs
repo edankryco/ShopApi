@@ -23,16 +23,16 @@ public class RenameUserController : ControllerBase, IRenameNameController
         _connect = configuration.GetConnectionString("DefaultConnection");
     }
 
-    [HttpPut("rename_Name/{id:int}")]
+    [HttpPut("renameName/{id:int}")]
     public async Task<IActionResult> RenameUser(int id, string name)
     {
         _mySqlConnect = new MySqlConnection(_connect);
         
         await _mySqlConnect.OpenAsync();
-        const string command = "UPDATE Click SET name = @Name WHERE id = @Id";
+        const string command = "UPDATE Users SET name = @Name WHERE id = @ID";
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
         _mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = name;
-        _mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
+        _mySqlCommand.Parameters.Add("@ID", MySqlDbType.Int64).Value = id;
         
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();

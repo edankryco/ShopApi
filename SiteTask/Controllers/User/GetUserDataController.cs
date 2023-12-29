@@ -31,7 +31,7 @@ public class UserGetController : ControllerBase, IUserGetController
     }
 
 
-    [HttpGet("userBase/{id:int}")]
+    [HttpGet("getUser/{id:int}")]
     public async Task<IActionResult> GetUserId(int id)
     {
         const string command = "SELECT * FROM Users " +
@@ -65,7 +65,7 @@ public class UserGetController : ControllerBase, IUserGetController
         return NotFound();
     }
 
-    [HttpGet("userBase")]
+    [HttpGet("getUser")]
     public async Task<IActionResult> GetUsers()
     {
         const string command = "SELECT * FROM Users";

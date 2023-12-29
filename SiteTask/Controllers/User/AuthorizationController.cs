@@ -8,7 +8,7 @@ namespace SiteTask.Controllers;
 public interface IAuthorizationController
 {
     public Task<IActionResult> UserRegistration(User user);
-    public Task<IActionResult> UserLogin(User user);
+    public Task<IActionResult> UserLogin(string login, Password pass);
 }
 
 [Route("api/[controller]")]
@@ -34,7 +34,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         await create.StartSearch();
     }
 
-    [HttpPost("authorization_Regist")]
+    [HttpPost("authorization/Regist")]
     public async Task<IActionResult> UserRegistration(User user)
     {
         await IfTableNo();
@@ -65,27 +65,27 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         return NoContent();
     }
 
-    [HttpPost("authorization_Login")]
-    public async Task<IActionResult> UserLogin(User user)
+    [HttpPost("authorization/Login")]
+    public async Task<IActionResult> UserLogin(string login, Password pass)
     {
         const string command = "SELECT EXISTS" +
-                               "(SELECT name, pass FROM " +
-                               "Users WHERE name = @Name " +
-                               "AND pass = @Pass)";
+                               "(SELECT login, password FROM " +
+                               "Users WHERE login = @Name " +
+                               "AND password = @Pass)";
 
         var mySqlConnect = new MySqlConnection(_connect);
         await mySqlConnect.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, mySqlConnect);
 
-        _mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = user.Name;
-        _mySqlCommand.Parameters.Add("@Pass", MySqlDbType.Text).Value = user.Pass;
+        _mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = login;
+        _mySqlCommand.Parameters.Add("@Pass", MySqlDbType.Text).Value = pass;
 
         var exist = await _mySqlCommand.ExecuteScalarAsync();
         var convertBoolean = Convert.ToBoolean(exist);
 
         if (!convertBoolean)
         {
-            return NoContent();
+            return Ok();
         }
 
         await mySqlConnect.CloseAsync();

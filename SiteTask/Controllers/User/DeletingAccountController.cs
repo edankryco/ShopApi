@@ -5,7 +5,8 @@ namespace SiteTask.Controllers.Userdata;
 
 public interface IDeletingAccountController
 {
-    public Task<IActionResult> DeletedUserData(int id);
+    public Task<IActionResult> DeletedUserDataId(int id);
+    public Task<IActionResult> DeletedUserDataAll();
 }
 
 [Route("api/[controller]")]
@@ -17,23 +18,40 @@ public class DeletingAccountController : ControllerBase, IDeletingAccountControl
     private ILogger<DeletingAccountController> _logger;
     private string _connect;
 
-    public DeletingAccountController(ILogger<DeletingAccountController> logger, string connect,
+    public DeletingAccountController(ILogger<DeletingAccountController> logger,
         IConfiguration configuration)
     {
         _logger = logger;
         _connect = configuration.GetConnectionString("DefaultConnection");
     }
 
-    [HttpDelete("deleted_User/{id:int}")]
-    public async Task<IActionResult> DeletedUserData(int id)
+    [HttpDelete("deletedUser/{id:int}")]
+    public async Task<IActionResult> DeletedUserDataId(int id)
     {
-        const string command = "DELETE FROM Click WHERE id = @Id";
+        const string command = "DELETE FROM Users WHERE id = @ID";
         _mySqlConnect = new MySqlConnection(_connect);
         await _mySqlConnect.OpenAsync();
 
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
-        _mySqlCommand.Parameters.Add("@Id", MySqlDbType.Int64).Value = id;
+        _mySqlCommand.Parameters.Add("@ID", MySqlDbType.Int64).Value = id;
 
+        await _mySqlCommand.ExecuteNonQueryAsync();
+        await _mySqlConnect.CloseAsync();
+
+        return NoContent();
+    }
+
+    [HttpDelete("deletedUserAll")]
+    public async Task<IActionResult> DeletedUserDataAll()
+    {
+        Console.Write(_connect);
+        const string command = "DELETE FROM Users";
+
+        _mySqlConnect = new MySqlConnection(_connect);
+        await _mySqlConnect.OpenAsync();
+        
+        _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
+        
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
 

@@ -29,13 +29,13 @@ public class SeitingsAdminController : ControllerBase, ISeitingsAdminController
     [HttpPost("createadmin")]
     public async Task<IActionResult> CreateAdmin(Model.Admin admin)
     {
-        const string command = "INSERT INTO Admin(idadmin, rang) " +
+        const string command = "INSERT INTO Admin(iduser, rang) " +
                                "VALUES(@IDADMIN, @RANG)";
 
         _mySqlConnect = new MySqlConnection(_connect);
         await _mySqlConnect.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
-        _mySqlCommand.Parameters.Add("@IDADMIN", MySqlDbType.Int64).Value = admin.Id;
+        _mySqlCommand.Parameters.Add("@IDADMIN", MySqlDbType.Int64).Value = admin.IdAdmin;
         _mySqlCommand.Parameters.Add("@RANG", MySqlDbType.Int64).Value = admin.Rang;
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();

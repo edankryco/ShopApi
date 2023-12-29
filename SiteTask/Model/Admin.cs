@@ -2,16 +2,14 @@
 
 public class Admin : IComparable<Admin>
 {
-    public Admin(int id, string login, int idAdmin, string rang)
+    public Admin(int idAdmin, int rang)
     {
-        Id = id;
         IdAdmin = idAdmin;
         Rang = rang;
     }
 
-    public int Id { get; set; }
     public int IdAdmin { get; set; }
-    public string Rang { get; set; }
+    public int Rang { get; set; }
 
     public int CompareTo(Admin? other)
     {
@@ -22,9 +20,9 @@ public class Admin : IComparable<Admin>
 
         if (other.Rang == Rang)
         {
-            return string.CompareOrdinal(Id.ToString(), other.Id.ToString());
+            return string.CompareOrdinal(IdAdmin.ToString(), other.IdAdmin.ToString());
         }
 
-        return string.CompareOrdinal(Rang, other.Rang);
+        return string.CompareOrdinal(Rang.ToString(), other.Rang.ToString());
     }
 }
