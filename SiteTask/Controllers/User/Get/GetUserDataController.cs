@@ -3,6 +3,7 @@ using System.Data.Common;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using SiteTask.Model;
+using SiteTask.Model.GetModel;
 using SiteTask.SrtucturData;
 
 namespace SiteTask.Controllers;
@@ -17,16 +18,21 @@ public interface IUserGetController
 [ApiController]
 public class UserGetController : ControllerBase, IUserGetController
 {
-    private MySqlCommand _mySqlCommand;
-    private MySqlConnection _mySqlConnect;
     private ILogger<UserGetController> _logger;
     private string _connect;
-    private Heap<UserGet> _heap = new();
-    private List<UserGet> _gets = new();
+    
+    private MySqlCommand _mySqlCommand;
+    private MySqlConnection _mySqlConnect;
+    private DbDataReader _dbDataReader;
+    
+    private Heap<UsersGet> _heap;
+    private List<UsersGet> _gets;
 
     public UserGetController(ILogger<UserGetController> logger, IConfiguration configuration)
     {
         _logger = logger;
+        _heap = new Heap<UsersGet>();
+        _gets = new List<UsersGet>();
         _connect = configuration.GetConnectionString("DefaultConnection");
     }
 
@@ -41,20 +47,20 @@ public class UserGetController : ControllerBase, IUserGetController
         await _mySqlConnect.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
         _mySqlCommand.Parameters.Add("ID", MySqlDbType.Int64).Value = id;
-        var dbDataReader = await _mySqlCommand.ExecuteReaderAsync();
-        if (dbDataReader.HasRows)
+        _dbDataReader = await _mySqlCommand.ExecuteReaderAsync();
+        if (_dbDataReader.HasRows)
         {
-            while (await dbDataReader.ReadAsync())
+            while (await _dbDataReader.ReadAsync())
             {
-                var login = dbDataReader.GetValue(1);
-                var name = dbDataReader.GetValue(2);
-                var age = dbDataReader.GetValue(3);
-                var email = dbDataReader.GetValue(4);
-                var password = dbDataReader.GetValue(5);
-                var repeatPassword = dbDataReader.GetValue(6);
-                var balanc = dbDataReader.GetValue(7);
+                var login = _dbDataReader.GetValue(1);
+                var name = _dbDataReader.GetValue(2);
+                var age = _dbDataReader.GetValue(3);
+                var email = _dbDataReader.GetValue(4);
+                var password = _dbDataReader.GetValue(5);
+                var repeatPassword = _dbDataReader.GetValue(6);
+                var balanc = _dbDataReader.GetValue(7);
                 
-                var userGet = new UserGet(login, name, age, email, password, repeatPassword, balanc);
+                var userGet = new UsersGet(login, name, age, email, password, repeatPassword, balanc);
                 
                 return Ok(userGet);
             }
@@ -62,7 +68,7 @@ public class UserGetController : ControllerBase, IUserGetController
 
         await _mySqlConnect.CloseAsync();
 
-        return NotFound();
+        return NoContent();
     }
 
     [HttpGet("getUser")]
@@ -73,20 +79,20 @@ public class UserGetController : ControllerBase, IUserGetController
         _mySqlConnect = new MySqlConnection(_connect);
         await _mySqlConnect.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
-        var dbDataReader = await _mySqlCommand.ExecuteReaderAsync();
-        if (dbDataReader.HasRows)
+        _dbDataReader = await _mySqlCommand.ExecuteReaderAsync();
+        if (_dbDataReader.HasRows)
         {
-            while (await dbDataReader.ReadAsync())
+            while (await _dbDataReader.ReadAsync())
             {
-                var login = dbDataReader.GetValue(1);
-                var name = dbDataReader.GetValue(2);
-                var age = dbDataReader.GetValue(3);
-                var email = dbDataReader.GetValue(4);
-                var password = dbDataReader.GetValue(5);
-                var repeatPassword = dbDataReader.GetValue(6);
-                var balans = dbDataReader.GetValue(7);
+                var login = _dbDataReader.GetValue(1);
+                var name = _dbDataReader.GetValue(2);
+                var age = _dbDataReader.GetValue(3);
+                var email = _dbDataReader.GetValue(4);
+                var password = _dbDataReader.GetValue(5);
+                var repeatPassword = _dbDataReader.GetValue(6);
+                var balans = _dbDataReader.GetValue(7);
                 
-                var userGet = new UserGet(login, name, age, email, password, repeatPassword, balans);
+                var userGet = new UsersGet(login, name, age, email, password, repeatPassword, balans);
                 _heap.Put(userGet);
             }
 
@@ -100,6 +106,6 @@ public class UserGetController : ControllerBase, IUserGetController
 
         await _mySqlConnect.CloseAsync();
 
-        return NotFound();
+        return NoContent();
     }
 }

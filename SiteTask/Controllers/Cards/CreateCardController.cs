@@ -5,7 +5,7 @@ namespace SiteTask.Controllers.Cards;
 
 public interface ICreateCardController
 {
-    public Task<IActionResult> PostCardsData(Model.Cards cards);
+    public Task<IActionResult> CreateCardsData(Model.Cards cards);
 }
 
 [Route("api/[controller]")]
@@ -23,19 +23,25 @@ public class CreateCardController : ControllerBase, ICreateCardController
         _connect = configuration.GetConnectionString("DefaultConnection");
     }
 
-    [HttpPost("create_card")]
-    public async Task<IActionResult> PostCardsData(Model.Cards cards)
+    [HttpPost("createcard")]
+    public async Task<IActionResult> CreateCardsData(Model.Cards cards)
     {
+        const string command = "INSERT INTO CardDataShop" +
+                               "(namecards,img, iduser, description) " +
+                               "VALUES (@Name, @Img, @IdUser, @Description)";
+
+        
         _mySqlConnect = new MySqlConnection(_connect);
-        const string command = "INSERT INTO CardDataShop(name,img,description) VALUES (@Name, @Img, @Description)";
         await _mySqlConnect.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
         
-        _mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = cards.Name;
-        _mySqlCommand.Parameters.Add("@Img", MySqlDbType.Text).Value = cards.Img;
+        _mySqlCommand.Parameters.Add("@Name", MySqlDbType.VarChar).Value = cards.Name;
+        _mySqlCommand.Parameters.Add("@Img", MySqlDbType.Blob).Value = cards.Img = await System.IO.File.
+            ReadAllBytesAsync("../Static/Img/no-profile.png");
+        _mySqlCommand.Parameters.Add("@IdUser", MySqlDbType.Int64).Value = cards.IdUser;
         _mySqlCommand.Parameters.Add("@Description", MySqlDbType.Text).Value = cards.Description;
 
-        await _mySqlCommand.ExecuteScalarAsync();
+        await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
 
         return NoContent();

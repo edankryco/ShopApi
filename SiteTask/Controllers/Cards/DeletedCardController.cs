@@ -5,7 +5,8 @@ namespace SiteTask.Controllers.Cards;
 
 public interface IDeletedCardController
 {
-    public Task<IActionResult> DeletedCardShop(string id);
+    public Task<IActionResult> DeletedCardShopId(int id);
+    public Task<IActionResult> DeletedCardsShopAll();
 }
 
 [Route("api/[controller]")]
@@ -24,11 +25,13 @@ public class DeletedCardController : ControllerBase, IDeletedCardController
     }
 
 
-    [HttpDelete("deleted_card")]
-    public async Task<IActionResult> DeletedCardShop(string id)
+    [HttpDelete("deleted_card{id:int}")]
+    public async Task<IActionResult> DeletedCardShopId(int id)
     {
-        _mySqlConnect = new MySqlConnection(_connect);
         const string command = "DELETE FROM CardDataShop WHERE id = @Id";
+
+        
+        _mySqlConnect = new MySqlConnection(_connect);
         await _mySqlConnect.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
         
@@ -36,6 +39,23 @@ public class DeletedCardController : ControllerBase, IDeletedCardController
         
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
+        return NoContent();
+    }
+
+    [HttpDelete("deleted_card/All")]
+    public async Task<IActionResult> DeletedCardsShopAll()
+    {
+        const string command = "DELETE FROM CardDataShop";
+
+        
+        _mySqlConnect = new MySqlConnection(_connect);
+        await _mySqlConnect.OpenAsync();
+        
+        _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
+        
+        await _mySqlCommand.ExecuteNonQueryAsync();
+        await _mySqlConnect.CloseAsync();
+        
         return NoContent();
     }
 }

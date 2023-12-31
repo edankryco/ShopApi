@@ -8,7 +8,7 @@ public interface ISeitingsAdminController
 {
     public Task<IActionResult> CreateAdmin(Model.Admin admin);
     public Task<IActionResult> DeletedAdmin(int id);
-    public Task<IActionResult> UpRang(int id);
+    public Task<IActionResult> UpRang(int id, int newRang);
 }
 
 [Route("/api/[controller]")]
@@ -33,44 +33,57 @@ public class SeitingsAdminController : ControllerBase, ISeitingsAdminController
                                "VALUES(@IDADMIN, @RANG)";
 
         _mySqlConnect = new MySqlConnection(_connect);
+        
         await _mySqlConnect.OpenAsync();
+        
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
+        
         _mySqlCommand.Parameters.Add("@IDADMIN", MySqlDbType.Int64).Value = admin.IdAdmin;
         _mySqlCommand.Parameters.Add("@RANG", MySqlDbType.Int64).Value = admin.Rang;
+        
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
 
         return NoContent();
     }
 
-    [HttpPost("deletedadmin")]
+    [HttpDelete("deletedadmin")]
     public async Task<IActionResult> DeletedAdmin(int id)
     {
         const string command = "DELETE FROM Admin WHERE " +
-                               "idadmin = @ID";
+                               "iduser = @ID";
 
         _mySqlConnect = new MySqlConnection(_connect);
         await _mySqlConnect.OpenAsync();
+        
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
+        
         _mySqlCommand.Parameters.Add("@ID", MySqlDbType.Int64).Value = id;
+        
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
+        
         return NoContent();
     }
 
     [HttpPut("uprang")]
-    public async Task<IActionResult> UpRang(int id)
+    public async Task<IActionResult> UpRang(int id, int newRang)
     {
         const string command = "UPDATE Admin SET " +
-                               "rang = @RANG WHERE " +
-                               "idadmin = @ID";
+                               "rang = @Rang WHERE " +
+                               "iduser = @ID";
         
         _mySqlConnect = new MySqlConnection(_connect);
         await _mySqlConnect.OpenAsync();
+        
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
+        
         _mySqlCommand.Parameters.Add("@ID", MySqlDbType.Int64).Value = id;
+        _mySqlCommand.Parameters.Add("@Rang", MySqlDbType.Int64).Value = newRang;
+        
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
+        
         return NoContent();
     }
 }

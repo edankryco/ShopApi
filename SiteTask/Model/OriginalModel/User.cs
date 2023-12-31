@@ -32,9 +32,9 @@ public class User : IComparable<User>
 
         if (other.Name == Name)
         {
-            return string.Compare(Name, other.Name, StringComparison.Ordinal);
+            return string.CompareOrdinal(Name, other.Name);
         }
 
-        return string.Compare(Name, other.Name, StringComparison.Ordinal);
+        return string.CompareOrdinal(Name, other.Name);
     }
 }

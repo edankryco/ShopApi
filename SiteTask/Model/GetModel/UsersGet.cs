@@ -1,8 +1,8 @@
-﻿namespace SiteTask.Model;
+﻿namespace SiteTask.Model.GetModel;
 
-public class UserGet : IComparable<UserGet>
+public class UsersGet : IComparable<UsersGet>
 {
-    public UserGet(object login, object name, object age, object mail, object pass, object replacePass, object balanc)
+    public UsersGet(object login, object name, object age, object mail, object pass, object replacePass, object balanc)
     {
         Name = name;
         Login = login;
@@ -21,7 +21,7 @@ public class UserGet : IComparable<UserGet>
     public object ReplacePass { get; set; }
     public object Balanc { get; set; }
 
-    public int CompareTo(UserGet? other)
+    public int CompareTo(UsersGet? other)
     {
         if (other == null)
         {

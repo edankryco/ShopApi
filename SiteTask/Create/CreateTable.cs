@@ -60,7 +60,7 @@ public class CreateTable
                                "buy INT, " +
                                "cardsname VARCHAR(255), " +
                                "FOREIGN KEY (iduser) REFERENCES Users(id) ON DELETE CASCADE, " +
-                               "FOREIGN KEY (buy) REFERENCES Cards(id) ON DELETE CASCADE)";
+                               "FOREIGN KEY (buy) REFERENCES CardDataShop(id) ON DELETE CASCADE)";
         _mySqlConnection = new MySqlConnection(_conenct);
         await _mySqlConnection.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, _mySqlConnection);
@@ -88,11 +88,12 @@ public class CreateTable
 
     private async Task CreateTableCards()
     {
-        const string command = "CREATE TABLE IF NOT EXISTS Cards(" +
+        const string command = "CREATE TABLE IF NOT EXISTS CardDataShop(" +
                                "id INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
                                "namecards VARCHAR(255), " +
-                               "img BIT, " +
-                               "nameuser VARCHAR(255))";
+                               "img BLOB, " +
+                               "iduser INT, " +
+                               "description TEXT)";
         _mySqlConnection = new MySqlConnection(_conenct);
         await _mySqlConnection.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, _mySqlConnection);
