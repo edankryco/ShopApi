@@ -29,12 +29,12 @@ public class DeletingAccountController : ControllerBase, IDeletingAccountControl
     [HttpDelete("deletedUser/{id:int}")]
     public async Task<IActionResult> DeletedUserDataId(int id)
     {
-        const string command = "DELETE FROM Users WHERE id = @ID";
+        const string command = "DELETE FROM Users WHERE login = @Login";
         _mySqlConnect = new MySqlConnection(_connect);
         await _mySqlConnect.OpenAsync();
 
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
-        _mySqlCommand.Parameters.Add("@ID", MySqlDbType.Int64).Value = id;
+        _mySqlCommand.Parameters.Add("@Login", MySqlDbType.Int64).Value = id;
 
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();

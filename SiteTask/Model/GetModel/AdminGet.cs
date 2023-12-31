@@ -2,13 +2,15 @@
 
 public class AdminGet : IComparable<AdminGet>
 {
-    public AdminGet(object idAdmin, object rang)
+    public AdminGet(object id,object login, object rang)
     {
-        IdAdmin = idAdmin;
+        Id = id;
+        Login = login;
         Rang = rang;
     }
 
-    public object IdAdmin { get; set; }
+    public object Id { get; set; }
+    public object Login { get; set; }
     public object Rang { get; set; }
     
     
@@ -21,7 +23,7 @@ public class AdminGet : IComparable<AdminGet>
 
         if (other.Rang == Rang)
         {
-            return string.CompareOrdinal(IdAdmin.ToString(), other.IdAdmin.ToString());
+            return string.CompareOrdinal(Login.ToString(), other.Login.ToString());
         }
 
         return string.CompareOrdinal(Rang.ToString(), other.Rang.ToString());

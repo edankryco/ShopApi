@@ -2,19 +2,19 @@
 
 public class CardsGet : IComparable<CardsGet>
 {
-    public CardsGet(object id, object name, object img, object idUser, object description)
+    public CardsGet(object id, object name, object img, object login, object description)
     {
         Id = id;
         Name = name;
         Img = img;
-        IdUser = idUser;
+        Login = login;
         Description = description;
     }
 
     public object Id { get; set; }
     public object Name { get; set; }
     public object Img { get; set; }
-    public object IdUser { get; set; }
+    public object Login { get; set; }
     public object Description { get; set; }
     
     public int CompareTo(CardsGet? other)

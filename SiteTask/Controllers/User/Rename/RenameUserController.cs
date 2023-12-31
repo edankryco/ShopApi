@@ -5,7 +5,7 @@ namespace SiteTask.Controllers;
 
 public interface IRenameNameController
 {
-    public Task<IActionResult> RenameUser(int id, string name);
+    public Task<IActionResult> RenameUser(string login, string name);
 }
 
 [Route("api/[controller]")]
@@ -23,16 +23,19 @@ public class RenameUserController : ControllerBase, IRenameNameController
         _connect = configuration.GetConnectionString("DefaultConnection");
     }
 
-    [HttpPut("renameName/{id:int}")]
-    public async Task<IActionResult> RenameUser(int id, string name)
+    [HttpPut("renameName/{login}")]
+    public async Task<IActionResult> RenameUser(string login, string name)
     {
+        const string command = "UPDATE Users " +
+                               "SET name = @Name " +
+                               "WHERE login = @Login";
+        
         _mySqlConnect = new MySqlConnection(_connect);
         
         await _mySqlConnect.OpenAsync();
-        const string command = "UPDATE Users SET name = @Name WHERE id = @ID";
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
         _mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = name;
-        _mySqlCommand.Parameters.Add("@ID", MySqlDbType.Int64).Value = id;
+        _mySqlCommand.Parameters.Add("@Login", MySqlDbType.VarChar).Value = login;
         
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();

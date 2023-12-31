@@ -1,6 +1,15 @@
-﻿namespace SiteTask.Controllers.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 
-public class SaveDataUserController
+namespace SiteTask.Controllers.Data.Save;
+
+public interface ISaveDataUserController
+{
+    
+}
+
+[Route("/api/[controller]")]
+[ApiController]
+public class SaveDataUserController : ControllerBase, ISaveDataUserController
 {
     
 }

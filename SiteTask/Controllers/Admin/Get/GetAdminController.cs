@@ -56,7 +56,7 @@ public class GetAdminController : ControllerBase,IGetAdminController
                 var idUser = _dataReader.GetValue(1);
                 var rang = _dataReader.GetValue(2);
 
-                var getAdmin = new AdminGet(idUser, rang);
+                var getAdmin = new AdminGet(id,idUser, rang);
                 
                 return Ok(getAdmin);
             }
@@ -83,10 +83,11 @@ public class GetAdminController : ControllerBase,IGetAdminController
         {
             while (await _dataReader.ReadAsync())
             {
+                var id = _dataReader.GetValue(0);
                 var idUser = _dataReader.GetValue(1);
                 var rang = _dataReader.GetValue(2);
 
-                var getAdmin = new AdminGet(idUser, rang);
+                var getAdmin = new AdminGet(id,idUser, rang);
                 _heap.Put(getAdmin);
             }
 

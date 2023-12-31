@@ -29,8 +29,8 @@ public class SeitingsAdminController : ControllerBase, ISeitingsAdminController
     [HttpPost("createadmin")]
     public async Task<IActionResult> CreateAdmin(Model.Admin admin)
     {
-        const string command = "INSERT INTO Admin(iduser, rang) " +
-                               "VALUES(@IDADMIN, @RANG)";
+        const string command = "INSERT INTO Admin(login, rang) " +
+                               "VALUES(@Login, @Rang)";
 
         _mySqlConnect = new MySqlConnection(_connect);
         
@@ -38,8 +38,8 @@ public class SeitingsAdminController : ControllerBase, ISeitingsAdminController
         
         _mySqlCommand = new MySqlCommand(command, _mySqlConnect);
         
-        _mySqlCommand.Parameters.Add("@IDADMIN", MySqlDbType.Int64).Value = admin.IdAdmin;
-        _mySqlCommand.Parameters.Add("@RANG", MySqlDbType.Int64).Value = admin.Rang;
+        _mySqlCommand.Parameters.Add("@Login", MySqlDbType.VarChar).Value = admin.Login;
+        _mySqlCommand.Parameters.Add("@Rang", MySqlDbType.Int64).Value = admin.Rang;
         
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();

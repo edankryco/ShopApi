@@ -27,8 +27,8 @@ public class CreateCardController : ControllerBase, ICreateCardController
     public async Task<IActionResult> CreateCardsData(Model.Cards cards)
     {
         const string command = "INSERT INTO CardDataShop" +
-                               "(namecards,img, iduser, description) " +
-                               "VALUES (@Name, @Img, @IdUser, @Description)";
+                               "(namecards,img, login, description) " +
+                               "VALUES (@Name, @Img, @Login, @Description)";
 
         
         _mySqlConnect = new MySqlConnection(_connect);
@@ -38,7 +38,7 @@ public class CreateCardController : ControllerBase, ICreateCardController
         _mySqlCommand.Parameters.Add("@Name", MySqlDbType.VarChar).Value = cards.Name;
         _mySqlCommand.Parameters.Add("@Img", MySqlDbType.Blob).Value = cards.Img = await System.IO.File.
             ReadAllBytesAsync("../Static/Img/no-profile.png");
-        _mySqlCommand.Parameters.Add("@IdUser", MySqlDbType.Int64).Value = cards.IdUser;
+        _mySqlCommand.Parameters.Add("@Login", MySqlDbType.Int64).Value = cards.Login;
         _mySqlCommand.Parameters.Add("@Description", MySqlDbType.Text).Value = cards.Description;
 
         await _mySqlCommand.ExecuteNonQueryAsync();
