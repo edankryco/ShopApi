@@ -15,6 +15,7 @@ public class DeletingAccountController : ControllerBase, IDeletingAccountControl
 {
     private MySqlCommand _mySqlCommand;
     private MySqlConnection _mySqlConnect;
+    
     private ILogger<DeletingAccountController> _logger;
     private string _connect;
 
