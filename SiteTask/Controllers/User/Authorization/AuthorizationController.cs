@@ -83,7 +83,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         var exist = await _mySqlCommand.ExecuteScalarAsync();
         var convertBoolean = Convert.ToBoolean(exist);
 
-        if (!convertBoolean)
+        if (convertBoolean)
         {
             return Ok();
         }
