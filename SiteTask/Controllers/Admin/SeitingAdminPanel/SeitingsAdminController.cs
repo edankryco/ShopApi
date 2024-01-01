@@ -38,10 +38,8 @@ public class SeitingsAdminController : ControllerBase, ISeitingsAdminController
             (admin.Login, "Users", "login");
         var isEmptyAdmin = _validationAdmin.SearchData
             (admin.Login, "Admin", "login");
-        
         if (!isEmptyUser.Result)
             return NoContent();
-
         if (isEmptyAdmin.Result)
             return NoContent();
         

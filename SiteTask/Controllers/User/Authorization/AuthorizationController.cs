@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using SiteTask.Controllers.ValidationData;
 using SiteTask.Create;
 using SiteTask.Model;
 using SiteTask.Model.HashPasswordModel;
@@ -22,9 +23,12 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
     private readonly MySqlConnection _mySqlConnection;
     private MySqlCommand _mySqlCommand;
 
+    private IValidationController<string> _validationUsers;
+
     public AuthorizationController(IConfiguration configuration, ILogger<AuthorizationController> logger)
     {
         _connect = configuration.GetConnectionString("DefaultConnection");
+        _validationUsers = new ValidationController<string>(configuration);
         _logger = logger;
     }
 
@@ -38,6 +42,11 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
     [HttpPost("authorization/Regist")]
     public async Task<IActionResult> UserRegistration(User user)
     {
+        var isEmptyUser = _validationUsers.SearchData
+            (user.Login, "Users", "login");
+        if (isEmptyUser.Result)
+            return NoContent();
+        
         const string command = "INSERT INTO Users" +
                                "(login, name, age, email,password,repassword, balanc)" +
                                " VALUES(" +
@@ -63,7 +72,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         await _mySqlCommand.ExecuteNonQueryAsync();
         await mySqlConnect.CloseAsync();
 
-        return NoContent();
+        return Ok();
     }
 
     [HttpPost("authorization/Login")]

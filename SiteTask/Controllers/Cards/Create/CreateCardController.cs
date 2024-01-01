@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using SiteTask.Controllers.ValidationData;
 
 namespace SiteTask.Controllers.Cards;
 
@@ -15,17 +16,25 @@ public class CreateCardController : ControllerBase, ICreateCardController
     private MySqlCommand _mySqlCommand;
     private MySqlConnection _mySqlConnect;
     private ILogger<CreateCardController> _logger;
-    readonly string _connect;
+    private readonly string _connect;
+
+    private IValidationController<string> _validationUsers;
 
     public CreateCardController(IConfiguration configuration, ILogger<CreateCardController> logger)
     {
         _logger = logger;
+        _validationUsers = new ValidationController<string>(configuration);
         _connect = configuration.GetConnectionString("DefaultConnection");
     }
 
     [HttpPost("createcard")]
     public async Task<IActionResult> CreateCardsData(Model.Cards cards)
     {
+        var isEmptyUser = _validationUsers.SearchData
+            (cards.Login, "Users", "login");
+        if (!isEmptyUser.Result)
+            return NoContent();
+        
         const string command = "INSERT INTO CardDataShop" +
                                "(namecards,img, login, description) " +
                                "VALUES (@Name, @Img, @Login, @Description)";
@@ -44,6 +53,6 @@ public class CreateCardController : ControllerBase, ICreateCardController
         await _mySqlCommand.ExecuteNonQueryAsync();
         await _mySqlConnect.CloseAsync();
 
-        return NoContent();
+        return Ok();
     }
 }
