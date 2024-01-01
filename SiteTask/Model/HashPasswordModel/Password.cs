@@ -1,12 +1,17 @@
 ﻿using SiteTask.Inteface;
 
-namespace SiteTask.Model;
+namespace SiteTask.Model.HashPasswordModel;
 
 public class Password : IHash
 {
     public Password(string pass)
     {
         Pass = pass;
+    }
+
+    public override string ToString()
+    {
+        return Pass;
     }
 
     public string Pass { get; set; }

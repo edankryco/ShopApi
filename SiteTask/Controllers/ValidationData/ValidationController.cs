@@ -8,18 +8,16 @@ public interface IValidationController<T>
     public Task<bool> SearchData(T item, string table, string name);
 }
 
-public class ValidationController<T> : ControllerBase, IValidationController<T>
+public class ValidationController<T> : IValidationController<T>
 {
-    private ILogger<ValidationController<T>> _logger;
     private string _connect;
 
     private MySqlConnection _mySqlConnection;
     private MySqlCommand _mySqlCommand;
 
-    public ValidationController(IConfiguration configuration, ILogger<ValidationController<T>> logger)
+    public ValidationController(IConfiguration configuration)
     {
         _connect = configuration.GetConnectionString("DefaultConnection");
-        _logger = logger;
     }
 
     public async Task<bool> SearchData(T item, string table, string name)

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using SiteTask.Model.HashPasswordModel;
 
 namespace SiteTask.Model;
 

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using SiteTask.Create;
 using SiteTask.Model;
+using SiteTask.Model.HashPasswordModel;
 
 namespace SiteTask.Controllers;
 
@@ -37,18 +38,18 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
     [HttpPost("authorization/Regist")]
     public async Task<IActionResult> UserRegistration(User user)
     {
-        await IfTableNo();
-
-        var mySqlConnect = new MySqlConnection(_connect);
-        await mySqlConnect.OpenAsync();
-
         const string command = "INSERT INTO Users" +
                                "(login, name, age, email,password,repassword, balanc)" +
                                " VALUES(" +
                                "@Login, @Name, @Age, @Mail, " +
                                "@Pass, @Replace_Pass, @Balanc)";
 
+        
+        await IfTableNo();
 
+        var mySqlConnect = new MySqlConnection(_connect);
+        await mySqlConnect.OpenAsync();
+        
         _mySqlCommand = new MySqlCommand(command, mySqlConnect);
 
         _mySqlCommand.Parameters.Add("@Login", MySqlDbType.VarChar).Value = user.Login;
@@ -70,15 +71,15 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
     {
         const string command = "SELECT EXISTS" +
                                "(SELECT login, password FROM " +
-                               "Users WHERE login = @Name " +
+                               "Users WHERE login = @Login " +
                                "AND password = @Pass)";
 
         var mySqlConnect = new MySqlConnection(_connect);
         await mySqlConnect.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, mySqlConnect);
 
-        _mySqlCommand.Parameters.Add("@Name", MySqlDbType.Text).Value = login;
-        _mySqlCommand.Parameters.Add("@Pass", MySqlDbType.Text).Value = pass;
+        _mySqlCommand.Parameters.Add("@Login", MySqlDbType.Text).Value = login;
+        _mySqlCommand.Parameters.Add("@Pass", MySqlDbType.Text).Value = pass.HashPass();
 
         var exist = await _mySqlCommand.ExecuteScalarAsync();
         var convertBoolean = Convert.ToBoolean(exist);
@@ -89,6 +90,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         }
 
         await mySqlConnect.CloseAsync();
+        
         return NoContent();
     }
 }
