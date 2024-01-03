@@ -24,7 +24,7 @@ public class GetCardsDataController : ControllerBase, IGetCardsDataController
     private MySqlConnection _mySqlConnect;
     private DbDataReader _dbDataReader;
     
-    private Heap<CardsGet> _heap;
+    private IHeap<CardsGet> _heap;
     private List<CardsGet> _gets;
 
     public GetCardsDataController(ILogger<GetCardsDataController> logger, IConfiguration configuration)
@@ -93,7 +93,7 @@ public class GetCardsDataController : ControllerBase, IGetCardsDataController
                 _heap.Put(cardsGet);
             }
 
-            while (_heap.Count > 0)
+            while (_heap.Size() > 0)
             {
                 _gets.Add(_heap.GetMax());
             }

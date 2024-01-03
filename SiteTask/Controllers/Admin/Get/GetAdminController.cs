@@ -24,7 +24,7 @@ public class GetAdminController : ControllerBase,IGetAdminController
     private MySqlCommand _mySqlCommand;
     private DbDataReader _dataReader;
     
-    private Heap<AdminGet> _heap;
+    private IHeap<AdminGet> _heap;
     private List<AdminGet> _gets;
 
     public GetAdminController(ILogger<GetAdminController> logger, IConfiguration configuration)
@@ -67,7 +67,7 @@ public class GetAdminController : ControllerBase,IGetAdminController
         return NoContent();
     }
 
-    [HttpGet("getAdmin")]
+    [HttpGet("getAdminAll")]
     public async Task<IActionResult> GetAdminAll()
     {
         const string command = "SELECT * FROM Admin";
@@ -91,7 +91,7 @@ public class GetAdminController : ControllerBase,IGetAdminController
                 _heap.Put(getAdmin);
             }
 
-            while (_heap.Count > 0)
+            while (_heap.Size() > 0)
             {
                 _gets.Add(_heap.GetMax());
             }

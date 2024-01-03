@@ -6,11 +6,11 @@ public class CreateTable
 {
     private MySqlCommand _mySqlCommand;
     private MySqlConnection _mySqlConnection;
-    private string _conenct;
+    private string _connect;
 
-    public CreateTable(string conenct)
+    public CreateTable(string connect)
     {
-        _conenct = conenct;
+        _connect = connect;
     }
 
     public async Task StartSearch()
@@ -27,12 +27,13 @@ public class CreateTable
         const string command = "CREATE TABLE IF NOT EXISTS DataUsers(" +
                                "id INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
                                "login VARCHAR(255)," +
-                               "ip INT," +
+                               "ip VARCHAR(255)," +
                                "macaddress VARCHAR(255)," +
                                "oc VARCHAR(255)," +
-                               "pc VARCHAR(255)," +
+                               "pc VARCHAR(255), " +
+                               "browser VARCHAR(255)," +
                                "FOREIGN KEY (login) REFERENCES Users (login) ON DELETE CASCADE)";
-        _mySqlConnection = new MySqlConnection(_conenct);
+        _mySqlConnection = new MySqlConnection(_connect);
         await _mySqlConnection.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, _mySqlConnection);
         await _mySqlCommand.ExecuteNonQueryAsync();
@@ -45,7 +46,7 @@ public class CreateTable
                                "login VARCHAR(255),"+
                                "rang INT(1)," +
                                "FOREIGN KEY (login) REFERENCES Users (login) ON DELETE CASCADE)";
-        _mySqlConnection = new MySqlConnection(_conenct);
+        _mySqlConnection = new MySqlConnection(_connect);
         await _mySqlConnection.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, _mySqlConnection);
         await _mySqlCommand.ExecuteNonQueryAsync();
@@ -61,7 +62,7 @@ public class CreateTable
                                "cardsname VARCHAR(255), " +
                                "FOREIGN KEY (login) REFERENCES Users(login) ON DELETE CASCADE, " +
                                "FOREIGN KEY (buy) REFERENCES CardDataShop(id) ON DELETE CASCADE)";
-        _mySqlConnection = new MySqlConnection(_conenct);
+        _mySqlConnection = new MySqlConnection(_connect);
         await _mySqlConnection.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, _mySqlConnection);
         await _mySqlCommand.ExecuteNonQueryAsync();
@@ -78,7 +79,7 @@ public class CreateTable
                                "password INT, " +
                                "repassword INT," +
                                "balanc INT)";
-        _mySqlConnection = new MySqlConnection(_conenct);
+        _mySqlConnection = new MySqlConnection(_connect);
         await _mySqlConnection.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, _mySqlConnection);
         await _mySqlCommand.ExecuteNonQueryAsync();
@@ -93,7 +94,7 @@ public class CreateTable
                                "img BLOB, " +
                                "iduser INT, " +
                                "description TEXT)";
-        _mySqlConnection = new MySqlConnection(_conenct);
+        _mySqlConnection = new MySqlConnection(_connect);
         await _mySqlConnection.OpenAsync();
         _mySqlCommand = new MySqlCommand(command, _mySqlConnection);
         await _mySqlCommand.ExecuteNonQueryAsync();

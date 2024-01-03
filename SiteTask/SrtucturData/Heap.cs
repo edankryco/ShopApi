@@ -2,6 +2,7 @@
 
 public interface IHeap<T> where T : IComparable<T>
 {
+    public int Size();
     public void Put(T item);
     public T? GetMax();
 }
@@ -11,6 +12,11 @@ public class Heap<T> : IHeap<T> where T : IComparable<T>
     private List<T> _heap = new();
 
     public int Count => _heap.Count;
+
+    public int Size()
+    {
+        return Count;
+    }
 
     public void Put(T item)
     {

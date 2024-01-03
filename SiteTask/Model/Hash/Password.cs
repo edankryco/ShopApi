@@ -1,6 +1,9 @@
-﻿using SiteTask.Inteface;
+﻿namespace SiteTask.Model.HashPasswordModel;
 
-namespace SiteTask.Model.HashPasswordModel;
+public interface IHash
+{
+    public int HashPass();
+}
 
 public class Password : IHash
 {

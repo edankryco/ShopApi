@@ -25,7 +25,7 @@ public class UserGetController : ControllerBase, IUserGetController
     private MySqlConnection _mySqlConnect;
     private DbDataReader _dbDataReader;
     
-    private Heap<UsersGet> _heap;
+    private IHeap<UsersGet> _heap;
     private List<UsersGet> _gets;
 
     public UserGetController(ILogger<UserGetController> logger, IConfiguration configuration)
@@ -95,7 +95,7 @@ public class UserGetController : ControllerBase, IUserGetController
                 _heap.Put(userGet);
             }
 
-            while (_heap.Count > 0)
+            while (_heap.Size() > 0)
             {
                 _gets.Add(_heap.GetMax());
             }

@@ -32,7 +32,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         _logger = logger;
     }
 
-    [HttpPost("iftableno")]
+    [HttpPost("ifTableno")]
     public async Task IfTableNo()
     {
         var create = new CreateTable(_connect);
@@ -42,6 +42,8 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
     [HttpPost("authorization/Regist")]
     public async Task<IActionResult> UserRegistration(User user)
     {
+        await IfTableNo();
+        
         var isEmptyUser = _validationUsers.SearchData
             (user.Login, "Users", "login");
         if (isEmptyUser.Result)
@@ -54,8 +56,6 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
                                "@Pass, @Replace_Pass, @Balanc)";
 
         
-        await IfTableNo();
-
         var mySqlConnect = new MySqlConnection(_connect);
         await mySqlConnect.OpenAsync();
         
@@ -72,7 +72,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         await _mySqlCommand.ExecuteNonQueryAsync();
         await mySqlConnect.CloseAsync();
 
-        return Ok();
+        return Ok("Успешно");
     }
 
     [HttpPost("authorization/Login")]
