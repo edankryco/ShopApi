@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using SiteTask.Controllers.TryError;
 using SiteTask.Controllers.ValidationData;
 using SiteTask.Create;
 using SiteTask.Model;
@@ -43,22 +44,20 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
     public async Task<IActionResult> UserRegistration(User user)
     {
         await IfTableNo();
-        
+
         var isEmptyUser = _validationUsers.SearchData
             (user.Login, "Users", "login");
         if (isEmptyUser.Result)
             return NoContent();
-        
+
         const string command = "INSERT INTO Users" +
                                "(login, name, age, email,password,repassword, balanc)" +
                                " VALUES(" +
                                "@Login, @Name, @Age, @Mail, " +
                                "@Pass, @Replace_Pass, @Balanc)";
 
-        
         var mySqlConnect = new MySqlConnection(_connect);
         await mySqlConnect.OpenAsync();
-        
         _mySqlCommand = new MySqlCommand(command, mySqlConnect);
 
         _mySqlCommand.Parameters.Add("@Login", MySqlDbType.VarChar).Value = user.Login;
@@ -99,7 +98,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         }
 
         await mySqlConnect.CloseAsync();
-        
+
         return NoContent();
     }
 }
