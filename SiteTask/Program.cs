@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Diagnostics;
 using SiteTask.Controllers.ErrorDistribution;
 using SiteTask.Controllers.Mail.Send;
 
+var isActive = false;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -32,6 +34,10 @@ app.UseExceptionHandler((error) =>
 
         var exceptionHandlerFeature = content.Features.Get<IExceptionHandlerFeature>();
         var exception = exceptionHandlerFeature.Error;
+        if (exception.Message.Contains("MySQL hosts"))
+        {
+            isActive = true;
+        }
 
         ISendEmailController sendEmailController = new SendEmailController();
         IErrorDistributionController errorDistributionController = new ErrorDistributionController(sendEmailController);
@@ -42,11 +48,11 @@ app.UseExceptionHandler((error) =>
 
 app.Use(async (context, next) =>
 {
-    if (false)
+    if (isActive)
     {
-        context.Response.StatusCode = 404;
+        context.Response.StatusCode = 503;
         context.Response.ContentType = "text/html; charset-utf-8";
-        await context.Response.WriteAsync("<h1> NOT FOUND </h1>");
+        await context.Response.WriteAsync("<h1>503 Проблема c MySql</h1>");
     }
     
     await next.Invoke();
