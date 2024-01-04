@@ -33,7 +33,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         _logger = logger;
     }
 
-    [HttpPost("ifTableno")]
+    [HttpPost("ifTableNo")]
     public async Task IfTableNo()
     {
         var create = new CreateTable(_connect);
@@ -71,7 +71,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         await _mySqlCommand.ExecuteNonQueryAsync();
         await mySqlConnect.CloseAsync();
 
-        return Ok("Успешно");
+        return Ok();
     }
 
     [HttpPost("authorization/Login")]
