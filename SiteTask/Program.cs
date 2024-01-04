@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -49,13 +50,13 @@ app.UseExceptionHandler((error) =>
     });
 });
 
-app.Use(async (context, next) =>
+app.Use(async (content, next) =>
 {
     if (isActive)
     {
-        context.Response.StatusCode = 503;
-        context.Response.ContentType = "text/html; charset-utf-8";
-        await context.Response.WriteAsync("<h1>503 Problem with MySql</h1>");
+        content.Response.StatusCode = 503;
+        content.Response.ContentType = "text/html; charset-utf-8";
+        await content.Response.WriteAsync("<h1>503 Problem with MySql</h1>");
     }
 
     await next.Invoke();
@@ -67,12 +68,16 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions()
                        ForwardedHeaders.XForwardedProto
 });
 
-app.Use(async (context, next) =>
+app.Use(async (content, next) =>
 {
-    if (context.Connection.RemoteIpAddress != null)
+    var hashSet = new HashSet<string>();
+    
+    if (content.Connection.RemoteIpAddress != null)
     {
-        var ip = context.Connection.RemoteIpAddress.ToString();
-        await context.Response.WriteAsync(ip);
+        var ip = content.Connection.RemoteIpAddress.ToString();
+        await content.Response.WriteAsync(ip);
+
+        hashSet.Add(ip);
     }
 
     await next.Invoke();
