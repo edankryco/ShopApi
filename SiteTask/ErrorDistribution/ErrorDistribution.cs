@@ -15,7 +15,7 @@ public class ErrorDistribution : IErrorDistributionController
 
     public ErrorDistribution(ISendEmailController sendEmailController, ITelegramPostErrors telegramPostErrors)
     {
-        _errorServiceMail = new ErrorServiceMailController(sendEmailController, telegramPostErrors);
+        _errorServiceMail = new ErrorServiceController(sendEmailController, telegramPostErrors);
     }
 
     public async Task GetError(Exception context)

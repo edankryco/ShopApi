@@ -79,7 +79,7 @@ app.Use(async (content, next) =>
         var ip = content.Connection.RemoteIpAddress.ToString();
         await content.Response.WriteAsync(ip);
         Console.WriteLine(ip);
-
+    
         if (hashSet.Contains(ip))
         {
             

@@ -18,8 +18,8 @@ public class TelegramPostErrors : ControllerBase, ITelegramPostErrors
         var restClient = new RestClient(url);
         var request = new RestRequest(tail, Method.Post);
 
-        request.AddHeader("Secret-Id", authorizationId);
-        request.AddParameter("text/plain", error, ParameterType.RequestBody);
+        // request.AddHeader("Secret-Id", authorizationId);
+        request.AddParameter(error, ParameterType.RequestBody);
 
         var response = await restClient.ExecuteAsync(request);
 

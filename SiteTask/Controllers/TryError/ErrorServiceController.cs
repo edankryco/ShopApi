@@ -8,12 +8,12 @@ public interface IErrorServiceMailController
     public Task PushData(Exception error);
 }
 
-public class ErrorServiceMailController : IErrorServiceMailController
+public class ErrorServiceController : IErrorServiceMailController
 {
     private readonly ISendEmailController _sendEmailController;
     private ITelegramPostErrors _telegramPostErrors;
 
-    public ErrorServiceMailController(ISendEmailController sendEmailController, ITelegramPostErrors telegramPostErrors)
+    public ErrorServiceController(ISendEmailController sendEmailController, ITelegramPostErrors telegramPostErrors)
     {
         _sendEmailController = sendEmailController;
         _telegramPostErrors = telegramPostErrors;
@@ -22,6 +22,6 @@ public class ErrorServiceMailController : IErrorServiceMailController
     public async Task PushData(Exception error)
     {
         await _sendEmailController.SentMailMessage("edankryzo66@yandex.com", "Капец ошибка", error.ToString());
-        await _telegramPostErrors.PostErrors(error.ToString(), "", "", "");
+        await _telegramPostErrors.PostErrors(error.ToString(), "", "http://localhost:3000/api/", "errors");
     }
 }
