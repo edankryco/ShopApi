@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.HttpOverrides;
 using SiteTask.Controllers.ErrorDistribution;
 using SiteTask.Controllers.Mail.Send;
+using SiteTask.Controllers.TelegramMessage;
 
 var isActive = false;
 
@@ -43,8 +44,9 @@ app.UseExceptionHandler((error) =>
                 isActive = true;
 
             ISendEmailController sendEmailController = new SendEmailController();
+            ITelegramPostErrors telegramPostErrors = new TelegramPostErrors();
             IErrorDistributionController errorDistributionController =
-                new ErrorDistributionController(sendEmailController);
+                new ErrorDistribution(sendEmailController, telegramPostErrors);
             await errorDistributionController.GetError(exception);
         }
     });
@@ -76,7 +78,13 @@ app.Use(async (content, next) =>
     {
         var ip = content.Connection.RemoteIpAddress.ToString();
         await content.Response.WriteAsync(ip);
+        Console.WriteLine(ip);
 
+        if (hashSet.Contains(ip))
+        {
+            
+        }
+        
         hashSet.Add(ip);
     }
 

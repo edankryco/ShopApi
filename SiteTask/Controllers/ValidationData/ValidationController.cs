@@ -20,6 +20,7 @@ public class ValidationController<T> : IValidationController<T>
         _connect = configuration.GetConnectionString("DefaultConnection");
     }
 
+    [HttpGet]
     public async Task<bool> SearchData(T item, string table, string name)
     {
         var command = $"SELECT EXISTS(" +

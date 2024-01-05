@@ -1,16 +1,18 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 
 namespace SiteTask.Controllers.Mail.Send;
 
 public interface ISendEmailController
 {
-    public Task SentMailMessage(string email, string subject, string message);
+    public Task<IActionResult> SentMailMessage(string email, string subject, string message);
 }
 
-public class SendEmailController : ISendEmailController
+public class SendEmailController : ControllerBase, ISendEmailController
 {
-    public async Task SentMailMessage(string email, string subject, string message)
+    [HttpPost]
+    public async Task<IActionResult> SentMailMessage(string email, string subject, string message)
     {
         var mimeMessage = new MimeMessage();
         
@@ -29,5 +31,7 @@ public class SendEmailController : ISendEmailController
         await client.SendAsync(mimeMessage);
         
         await client.DisconnectAsync(true);
+
+        return Ok();
     }
 }

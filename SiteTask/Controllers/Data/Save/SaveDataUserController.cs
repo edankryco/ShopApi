@@ -7,7 +7,7 @@ namespace SiteTask.Controllers.Data.Save;
 
 public interface ISaveDataUserController
 {
-    public Task<IActionResult> SaveData(SecretData secretData, HttpContent content);
+    public Task<IActionResult> SaveData(SecretData secretData);
 }
 
 [Route("/api/[controller]")]
@@ -31,7 +31,7 @@ public class SaveDataUserController : ControllerBase, ISaveDataUserController
     }
     
     [HttpPost("saveData")]
-    public async Task<IActionResult> SaveData(SecretData secretData, HttpContent content)
+    public async Task<IActionResult> SaveData(SecretData secretData)
     {
         var isEmptyUser = _validationUser.SearchData(
             secretData.Login, "Users", "login");
