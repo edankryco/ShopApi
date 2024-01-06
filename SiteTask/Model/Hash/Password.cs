@@ -1,15 +1,16 @@
-﻿namespace SiteTask.Model.HashPasswordModel;
+﻿namespace SiteTask.Model.Hash;
 
 public interface IHash
 {
-    public int HashPass();
+    public string HashPass();
 }
 
 public class Password : IHash
 {
-    public Password(string pass)
+    public Password(string pass, byte[] salt)
     {
         Pass = pass;
+        Salt = salt;
     }
 
     public override string ToString()
@@ -18,15 +19,12 @@ public class Password : IHash
     }
 
     public string Pass { get; set; }
+    public byte[] Salt { get; set; }
     
-    public int HashPass()
+    public string HashPass()
     {
-        var hash = 100;
-        foreach (var data in Pass)
-        {
-            hash = ((hash << 5) + hash) ^ data;
-        }
-
+        var hash = "";
+        
         return hash;
     }
 }

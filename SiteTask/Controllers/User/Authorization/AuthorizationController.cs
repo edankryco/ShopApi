@@ -4,7 +4,7 @@ using SiteTask.Controllers.TryError;
 using SiteTask.Controllers.ValidationData;
 using SiteTask.Create;
 using SiteTask.Model;
-using SiteTask.Model.HashPasswordModel;
+using SiteTask.Model.Hash;
 
 namespace SiteTask.Controllers;
 

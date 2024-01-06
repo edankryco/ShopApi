@@ -1,4 +1,4 @@
-﻿namespace SiteTask.Model.HashPasswordModel;
+﻿namespace SiteTask.Model.Hash;
 
 public class Login : IHash
 {
@@ -9,8 +9,8 @@ public class Login : IHash
 
     public string LoginUser { get; set; }
     
-    public int HashPass()
+    public string HashPass()
     {
-        return 0;
+        return "";
     }
 }
