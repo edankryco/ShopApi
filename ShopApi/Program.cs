@@ -72,21 +72,20 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions()
 
 app.Use(async (content, next) =>
 {
-    // var hashSet = new HashSet<string>();
-    //
-    // if (content.Connection.RemoteIpAddress != null)
-    // {
-    //     var ip = content.Connection.RemoteIpAddress.ToString();
-    //     await content.Response.WriteAsync(ip);
-    //     Console.WriteLine(ip);
-    //
-    //     if (hashSet.Contains(ip))
-    //     {
-    //         
-    //     }
-    //     
-    //     hashSet.Add(ip);
-    // }
+    var hashSet = new HashSet<string>();
+    
+    if (content.Connection.RemoteIpAddress != null)
+    {
+        var ip = content.Connection.RemoteIpAddress.ToString();
+        await content.Response.WriteAsync(ip);
+    
+        if (hashSet.Contains(ip))
+        {
+            
+        }
+        
+        hashSet.Add(ip);
+    }
 
     await next.Invoke();
 });

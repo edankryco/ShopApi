@@ -51,7 +51,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
             return NoContent();
 
         const string command = "INSERT INTO Users" +
-                               "(login, name, age, email,password,repassword, balanc)" +
+                               "(login, name, age, email,password,balanc)" +
                                " VALUES(" +
                                "@Login, @Name, @Age, @Mail, " +
                                "@Pass, @Replace_Pass, @Balanc)";
@@ -64,8 +64,7 @@ public class AuthorizationController : ControllerBase, IAuthorizationController
         _mySqlCommand.Parameters.Add("@Name", MySqlDbType.VarChar).Value = user.Name;
         _mySqlCommand.Parameters.Add("@Age", MySqlDbType.Int64).Value = user.Age;
         _mySqlCommand.Parameters.Add("@Mail", MySqlDbType.VarChar).Value = user.Mail;
-        _mySqlCommand.Parameters.Add("@Pass", MySqlDbType.Int64).Value = user.Pass.HashPass();
-        _mySqlCommand.Parameters.Add("@Replace_Pass", MySqlDbType.Int64).Value = user.ReplacePass.HashPass();
+        _mySqlCommand.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = user.Pass.HashPass();
         _mySqlCommand.Parameters.Add("@Balanc", MySqlDbType.Int64).Value = user.Balanc;
 
         await _mySqlCommand.ExecuteNonQueryAsync();

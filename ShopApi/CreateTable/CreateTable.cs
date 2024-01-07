@@ -76,8 +76,7 @@ public class CreateTable
                                "name VARCHAR(255)," +
                                "age INT(3)," +
                                "email VARCHAR(255)," +
-                               "password INT, " +
-                               "repassword INT," +
+                               "password TEXT,"+
                                "balanc INT)";
         _mySqlConnection = new MySqlConnection(_connect);
         await _mySqlConnection.OpenAsync();

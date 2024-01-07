@@ -13,7 +13,12 @@ public class Login : IHash
     {
         IMyArgon argon = new MyArgon2d();
         var salt = argon.GeneratorSalt(LoginUser);
+        var hash = argon.Hash(LoginUser, salt);
+        foreach (var data in hash)
+        {
+            return data.ToString();
+        }
 
-        return argon.Hash(LoginUser, salt);
+        return null;
     }
 }

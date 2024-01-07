@@ -5,7 +5,7 @@ namespace SiteTask;
 
 public interface IMyArgon
 {
-    public string Hash(string password, byte[] salt);
+    public byte[] Hash(string password, byte[] salt);
     public byte[] GeneratorSalt(string secret);
 }
 
@@ -23,7 +23,7 @@ public class MyArgon2d : IMyArgon
         _salt = new byte[saltSize];
     }
 
-    public string Hash(string password, byte[] salt)
+    public byte[] Hash(string password, byte[] salt)
     {
         HMACSHA256 hmacsha256 = new HMACSHA256();
         
@@ -35,7 +35,7 @@ public class MyArgon2d : IMyArgon
         return IterationHash(hmacsha256, saltedPasswordBytes);
     }
 
-    private string IterationHash(HMACSHA256 hmacsha256, byte[] saltedByte)
+    private byte[] IterationHash(HMACSHA256 hmacsha256, byte[] saltedByte)
     {
         for (int i = 0; i < _iterations; i++)
         {
@@ -43,7 +43,7 @@ public class MyArgon2d : IMyArgon
             saltedByte = hmacsha256.ComputeHash(saltedByte);
         }
 
-        return saltedByte.ToString();
+        return saltedByte;
     }
 
     [Obsolete("Obsolete")]

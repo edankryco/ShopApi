@@ -63,3 +63,11 @@ C:\Users\edgar\Desktop\ShopApi\ShopApi\obj\Debug\net7.0\refint\ShopApi.dll
 C:\Users\edgar\Desktop\ShopApi\ShopApi\obj\Debug\net7.0\ShopApi.pdb
 C:\Users\edgar\Desktop\ShopApi\ShopApi\obj\Debug\net7.0\ShopApi.genruntimeconfig.cache
 C:\Users\edgar\Desktop\ShopApi\ShopApi\obj\Debug\net7.0\ref\ShopApi.dll
+C:\Users\edgar\Desktop\ShopApi\ShopApi\bin\Debug\net7.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\edgar\Desktop\ShopApi\ShopApi\bin\Debug\net7.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+C:\Users\edgar\Desktop\ShopApi\ShopApi\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\edgar\Desktop\ShopApi\ShopApi\bin\Debug\net7.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\edgar\Desktop\ShopApi\ShopApi\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+C:\Users\edgar\Desktop\ShopApi\ShopApi\bin\Debug\net7.0\Microsoft.Extensions.Primitives.dll
+C:\Users\edgar\Desktop\ShopApi\ShopApi\bin\Debug\net7.0\Pipelines.Sockets.Unofficial.dll
+C:\Users\edgar\Desktop\ShopApi\ShopApi\bin\Debug\net7.0\StackExchange.Redis.dll

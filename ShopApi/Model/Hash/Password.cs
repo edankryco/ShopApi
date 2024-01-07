@@ -7,10 +7,9 @@ public interface IHash
 
 public class Password : IHash
 {
-    public Password(string pass, byte[] salt)
+    public Password(string pass)
     {
         Pass = pass;
-        Salt = salt;
     }
 
     public override string ToString()
@@ -19,13 +18,17 @@ public class Password : IHash
     }
 
     public string Pass { get; set; }
-    public byte[] Salt { get; set; }
 
     public string HashPass()
     {
         IMyArgon argon = new MyArgon2d();
         var salt = argon.GeneratorSalt(Pass);
-        
-        return argon.Hash(Pass, salt);
+        var hash = argon.Hash(Pass, salt);
+        foreach (var data in hash)
+        {
+            return data.ToString();
+        }
+
+        return null;
     }
 }
