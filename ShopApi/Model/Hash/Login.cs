@@ -11,6 +11,9 @@ public class Login : IHash
     
     public string HashPass()
     {
-        return "";
+        IMyArgon argon = new MyArgon2d();
+        var salt = argon.GeneratorSalt(LoginUser);
+
+        return argon.Hash(LoginUser, salt);
     }
 }

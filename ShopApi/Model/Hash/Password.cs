@@ -20,11 +20,12 @@ public class Password : IHash
 
     public string Pass { get; set; }
     public byte[] Salt { get; set; }
-    
+
     public string HashPass()
     {
-        var hash = "";
+        IMyArgon argon = new MyArgon2d();
+        var salt = argon.GeneratorSalt(Pass);
         
-        return hash;
+        return argon.Hash(Pass, salt);
     }
 }
