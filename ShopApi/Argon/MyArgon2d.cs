@@ -13,9 +13,8 @@ public class MyArgon2d : IMyArgon
 {
     private int _iterations = 10;
     private int _memorySize = 65536;
-    public int _parallelism = 1;
-    private int saltSize = 16;
-    private int hashSize = 32;
+    private readonly int saltSize = 16;
+    private int _hashSize = 32;
 
     private byte[] _salt;
 
